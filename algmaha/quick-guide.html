@@ -1,0 +1,381 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>دليل الاستخدام السريع - جمعية تحفيظ القرآن الكريم</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=Cairo:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        body {
+            background: #f5f6fa;
+            font-family: 'Cairo', sans-serif;
+            line-height: 1.6;
+            margin: 0;
+            padding: 20px;
+        }
+        .guide-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            overflow: hidden;
+        }
+        .guide-header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 2rem;
+            text-align: center;
+        }
+        .guide-header h1 {
+            margin: 0;
+            font-family: 'Amiri', serif;
+            font-size: 2.5rem;
+        }
+        .guide-content {
+            padding: 2rem;
+        }
+        .section {
+            margin-bottom: 3rem;
+        }
+        .section h2 {
+            color: #333;
+            border-bottom: 3px solid #667eea;
+            padding-bottom: 0.5rem;
+            margin-bottom: 1.5rem;
+        }
+        .feature-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+        .feature-card {
+            background: #f8f9fa;
+            padding: 1.5rem;
+            border-radius: 10px;
+            border-left: 4px solid #667eea;
+        }
+        .feature-card h3 {
+            color: #333;
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        .feature-card i {
+            color: #667eea;
+        }
+        .steps-list {
+            counter-reset: step-counter;
+        }
+        .step {
+            counter-increment: step-counter;
+            background: #f8f9fa;
+            padding: 1.5rem;
+            margin-bottom: 1rem;
+            border-radius: 10px;
+            position: relative;
+            padding-right: 4rem;
+        }
+        .step::before {
+            content: counter(step-counter);
+            position: absolute;
+            right: 1rem;
+            top: 1rem;
+            background: #667eea;
+            color: white;
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+        }
+        .credentials {
+            background: #e8f4fd;
+            padding: 1.5rem;
+            border-radius: 10px;
+            border: 1px solid #bee5eb;
+        }
+        .credentials h4 {
+            color: #0c5460;
+            margin-bottom: 1rem;
+        }
+        .credential-item {
+            background: white;
+            padding: 1rem;
+            margin-bottom: 0.5rem;
+            border-radius: 5px;
+            font-family: monospace;
+        }
+        .back-button {
+            position: fixed;
+            top: 20px;
+            left: 20px;
+            background: #667eea;
+            color: white;
+            padding: 0.75rem 1.5rem;
+            border: none;
+            border-radius: 25px;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.3);
+            transition: transform 0.2s;
+        }
+        .back-button:hover {
+            transform: translateY(-2px);
+        }
+        .warning {
+            background: #fff3cd;
+            border: 1px solid #ffeaa7;
+            color: #856404;
+            padding: 1rem;
+            border-radius: 8px;
+            margin-bottom: 1rem;
+        }
+        .tip {
+            background: #d1ecf1;
+            border: 1px solid #bee5eb;
+            color: #0c5460;
+            padding: 1rem;
+            border-radius: 8px;
+            margin-bottom: 1rem;
+        }
+    </style>
+</head>
+<body>
+    <a href="index.html" class="back-button">
+        <i class="fas fa-arrow-right"></i>
+        العودة للنظام
+    </a>
+
+    <div class="guide-container">
+        <div class="guide-header">
+            <i class="fas fa-mosque" style="font-size: 3rem; margin-bottom: 1rem;"></i>
+            <h1>دليل الاستخدام السريع</h1>
+            <p>نظام إدارة جمعية تحفيظ القرآن الكريم</p>
+        </div>
+
+        <div class="guide-content">
+            <!-- البدء السريع -->
+            <div class="section">
+                <h2><i class="fas fa-rocket"></i> البدء السريع</h2>
+                
+                <div class="credentials">
+                    <h4><i class="fas fa-key"></i> بيانات تسجيل الدخول التجريبية:</h4>
+                    
+                    <div class="credential-item">
+                        <strong>حساب الإدارة:</strong><br>
+                        اسم المستخدم: admin<br>
+                        كلمة المرور: admin123<br>
+                        النوع: إدارة
+                    </div>
+                    
+                    <div class="credential-item">
+                        <strong>حساب المعلم:</strong><br>
+                        اسم المستخدم: teacher1<br>
+                        كلمة المرور: teacher123<br>
+                        النوع: معلم
+                    </div>
+                    
+                    <div class="credential-item">
+                        <strong>حساب الطالب:</strong><br>
+                        اسم المستخدم: student1<br>
+                        كلمة المرور: student123<br>
+                        النوع: طالب
+                    </div>
+                </div>
+
+                <div class="steps-list">
+                    <div class="step">
+                        <h4>افتح الموقع</h4>
+                        <p>انتقل إلى الصفحة الرئيسية وستظهر لك شاشة تسجيل الدخول</p>
+                    </div>
+                    
+                    <div class="step">
+                        <h4>سجل الدخول</h4>
+                        <p>استخدم أحد الحسابات التجريبية أعلاه لتسجيل الدخول</p>
+                    </div>
+                    
+                    <div class="step">
+                        <h4>استكشف النظام</h4>
+                        <p>تصفح القوائم المختلفة وجرب الوظائف المتاحة</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- المميزات الرئيسية -->
+            <div class="section">
+                <h2><i class="fas fa-star"></i> المميزات الرئيسية</h2>
+                
+                <div class="feature-grid">
+                    <div class="feature-card">
+                        <h3><i class="fas fa-users"></i> إدارة شاملة</h3>
+                        <p>إدارة المعلمين والطلاب والحلقات من مكان واحد مع واجهة سهلة الاستخدام</p>
+                    </div>
+                    
+                    <div class="feature-card">
+                        <h3><i class="fas fa-chart-line"></i> متابعة التقدم</h3>
+                        <p>متابعة دقيقة لحفظ ومراجعة كل طالب مع نظام تقدير متدرج</p>
+                    </div>
+                    
+                    <div class="feature-card">
+                        <h3><i class="fas fa-calendar-check"></i> تسجيل الحضور</h3>
+                        <p>نظام حضور متطور مع إحصائيات وتقارير مفصلة</p>
+                    </div>
+                    
+                    <div class="feature-card">
+                        <h3><i class="fas fa-trophy"></i> تحفيز الطلاب</h3>
+                        <p>عرض الطلاب المتميزين وتشجيعهم على التفوق</p>
+                    </div>
+                    
+                    <div class="feature-card">
+                        <h3><i class="fas fa-mobile-alt"></i> تصميم متجاوب</h3>
+                        <p>يعمل على جميع الأجهزة - كمبيوتر، تابلت، هاتف ذكي</p>
+                    </div>
+                    
+                    <div class="feature-card">
+                        <h3><i class="fas fa-database"></i> حفظ محلي</h3>
+                        <p>البيانات محفوظة محلياً في المتصفح - لا حاجة لخادم</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- كيفية الاستخدام -->
+            <div class="section">
+                <h2><i class="fas fa-question-circle"></i> كيفية الاستخدام</h2>
+
+                <h3><i class="fas fa-user-shield"></i> للإدارة:</h3>
+                <div class="steps-list">
+                    <div class="step">
+                        <h4>إضافة المعلمين</h4>
+                        <p>انتقل إلى قسم "المعلمين" واضغط "إضافة معلم جديد" وأدخل البيانات المطلوبة</p>
+                    </div>
+                    
+                    <div class="step">
+                        <h4>إنشاء الحلقات</h4>
+                        <p>في قسم "الحلقات"، أنشئ حلقات جديدة وحدد المعلم والوقت والمسجد</p>
+                    </div>
+                    
+                    <div class="step">
+                        <h4>إضافة الطلاب</h4>
+                        <p>أضف الطلاب وحدد حلقاتهم ومستوياتهم في قسم "الطلاب"</p>
+                    </div>
+                    
+                    <div class="step">
+                        <h4>متابعة الإحصائيات</h4>
+                        <p>راقب التقدم من خلال لوحة التحكم والتقارير المختلفة</p>
+                    </div>
+                </div>
+
+                <h3><i class="fas fa-chalkboard-teacher"></i> للمعلمين:</h3>
+                <div class="steps-list">
+                    <div class="step">
+                        <h4>عرض طلاب الحلقة</h4>
+                        <p>في قسم "الطلاب"، استخدم المرشح لعرض طلاب حلقتك فقط</p>
+                    </div>
+                    
+                    <div class="step">
+                        <h4>تسجيل الحضور</h4>
+                        <p>انتقل إلى "الحضور"، اختر التاريخ والحلقة، ثم سجل حضور كل طالب</p>
+                    </div>
+                    
+                    <div class="step">
+                        <h4>تحديث التقدم</h4>
+                        <p>عدّل بيانات الطلاب لتحديث مقدار الحفظ والمراجعة والتقديرات</p>
+                    </div>
+                </div>
+
+                <h3><i class="fas fa-user-graduate"></i> للطلاب:</h3>
+                <div class="steps-list">
+                    <div class="step">
+                        <h4>عرض التقدم</h4>
+                        <p>راجع تقدمك في الحفظ والمراجعة من خلال لوحة التحكم</p>
+                    </div>
+                    
+                    <div class="step">
+                        <h4>متابعة الدرجات</h4>
+                        <p>تابع تقديراتك وحضورك في الأقسام المختلفة</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- نصائح مهمة -->
+            <div class="section">
+                <h2><i class="fas fa-lightbulb"></i> نصائح مهمة</h2>
+                
+                <div class="tip">
+                    <strong><i class="fas fa-info-circle"></i> نصيحة:</strong>
+                    البيانات محفوظة في متصفحك محلياً. لا تحذف بيانات المتصفح إذا كنت تريد الاحتفاظ بالمعلومات.
+                </div>
+                
+                <div class="warning">
+                    <strong><i class="fas fa-exclamation-triangle"></i> تحذير:</strong>
+                    هذا نظام تجريبي. للاستخدام الفعلي، يُنصح بربطه بقاعدة بيانات حقيقية.
+                </div>
+                
+                <div class="tip">
+                    <strong><i class="fas fa-mobile-alt"></i> للهواتف الذكية:</strong>
+                    يمكنك إضافة الموقع إلى الشاشة الرئيسية لسهولة الوصول.
+                </div>
+                
+                <div class="tip">
+                    <strong><i class="fas fa-print"></i> للطباعة:</strong>
+                    يمكنك طباعة التقارير مباشرة من المتصفح - الأزرار والقوائم ستختفي تلقائياً.
+                </div>
+            </div>
+
+            <!-- الأسئلة الشائعة -->
+            <div class="section">
+                <h2><i class="fas fa-question"></i> الأسئلة الشائعة</h2>
+                
+                <div class="feature-card">
+                    <h3>كيف أضيف معلماً جديداً؟</h3>
+                    <p>سجل دخول كإدارة، انتقل إلى قسم "المعلمين"، اضغط "إضافة معلم جديد" وأدخل البيانات.</p>
+                </div>
+                
+                <div class="feature-card">
+                    <h3>كيف أنقل طالباً من حلقة إلى أخرى؟</h3>
+                    <p>اضغط "تعديل" بجانب اسم الطالب، ثم غيّر الحلقة من القائمة المنسدلة.</p>
+                </div>
+                
+                <div class="feature-card">
+                    <h3>كيف أسجل حضور الطلاب؟</h3>
+                    <p>انتقل إلى قسم "الحضور"، اختر التاريخ والحلقة، ثم حدد حالة كل طالب.</p>
+                </div>
+                
+                <div class="feature-card">
+                    <h3>هل يمكنني استخدام النظام على الهاتف؟</h3>
+                    <p>نعم، النظام متجاوب ويعمل بشكل ممتاز على جميع الأجهزة.</p>
+                </div>
+                
+                <div class="feature-card">
+                    <h3>كيف أحفظ نسخة احتياطية من البيانات؟</h3>
+                    <p>حالياً البيانات محفوظة في المتصفح. يمكن إضافة ميزة التصدير لاحقاً.</p>
+                </div>
+            </div>
+
+            <!-- معلومات التواصل -->
+            <div class="section">
+                <h2><i class="fas fa-envelope"></i> الدعم والمساعدة</h2>
+                
+                <div class="feature-card">
+                    <h3><i class="fas fa-bug"></i> الإبلاغ عن مشكلة</h3>
+                    <p>إذا واجهت أي مشكلة، تأكد من استخدام متصفح حديث وتفعيل JavaScript.</p>
+                </div>
+                
+                <div class="feature-card">
+                    <h3><i class="fas fa-code"></i> التطوير</h3>
+                    <p>هذا النظام مفتوح المصدر ويمكن تطويره وتخصيصه حسب احتياجاتك.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

@@ -1,0 +1,345 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>جمعية تحفيظ القرآن الكريم</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=Cairo:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <!-- شاشة تسجيل الدخول -->
+    <div id="loginScreen" class="login-screen">
+        <div class="login-container">
+            <div class="login-header">
+                <i class="fas fa-mosque"></i>
+                <h1>جمعية تحفيظ القرآن الكريم</h1>
+                <p>نظام إدارة الحلقات والطلاب</p>
+            </div>
+            
+            <form id="loginForm" class="login-form">
+                <div class="form-group">
+                    <label for="username">اسم المستخدم</label>
+                    <input type="text" id="username" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="password">كلمة المرور</label>
+                    <input type="password" id="password" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="userType">نوع المستخدم</label>
+                    <select id="userType" required>
+                        <option value="">اختر نوع المستخدم</option>
+                        <option value="admin">إدارة</option>
+                        <option value="teacher">معلم</option>
+                        <option value="student">طالب</option>
+                    </select>
+                </div>
+                
+                <button type="submit" class="login-btn">
+                    <i class="fas fa-sign-in-alt"></i>
+                    تسجيل الدخول
+                </button>
+            </form>
+            
+            <div class="demo-accounts">
+                <h3>حسابات تجريبية:</h3>
+                <p><strong>إدارة:</strong> admin / admin123</p>
+                <p><strong>معلم:</strong> teacher1 / teacher123</p>
+                <p><strong>طالب:</strong> student1 / student123</p>
+                
+                <div style="margin-top: 1rem; text-align: center;">
+                    <a href="quick-guide.html" target="_blank" style="color: #667eea; text-decoration: none; font-weight: 600;">
+                        <i class="fas fa-book"></i> دليل الاستخدام السريع
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- الواجهة الرئيسية -->
+    <div id="mainApp" class="main-app" style="display: none;">
+        <!-- شريط التنقل العلوي -->
+        <nav class="navbar">
+            <div class="nav-brand">
+                <i class="fas fa-mosque"></i>
+                <span>جمعية تحفيظ القرآن الكريم</span>
+            </div>
+            
+            <div class="nav-user">
+                <span id="currentUser">مرحباً، </span>
+                <button id="logoutBtn" class="logout-btn">
+                    <i class="fas fa-sign-out-alt"></i>
+                    تسجيل الخروج
+                </button>
+            </div>
+        </nav>
+
+        <!-- القائمة الجانبية -->
+        <aside class="sidebar">
+            <ul class="sidebar-menu">
+                <li><a href="#" data-page="dashboard" class="menu-item active">
+                    <i class="fas fa-tachometer-alt"></i>
+                    <span>لوحة التحكم</span>
+                </a></li>
+                
+                <li class="admin-only"><a href="#" data-page="teachers" class="menu-item">
+                    <i class="fas fa-chalkboard-teacher"></i>
+                    <span>المعلمين</span>
+                </a></li>
+                
+                <li><a href="#" data-page="students" class="menu-item">
+                    <i class="fas fa-user-graduate"></i>
+                    <span>الطلاب</span>
+                </a></li>
+                
+                <li><a href="#" data-page="circles" class="menu-item">
+                    <i class="fas fa-users"></i>
+                    <span>الحلقات</span>
+                </a></li>
+                
+                <li><a href="#" data-page="attendance" class="menu-item">
+                    <i class="fas fa-calendar-check"></i>
+                    <span>الحضور</span>
+                </a></li>
+                
+                <li><a href="#" data-page="progress" class="menu-item">
+                    <i class="fas fa-chart-line"></i>
+                    <span>متابعة الحفظ</span>
+                </a></li>
+                
+                <li><a href="#" data-page="calendar" class="menu-item">
+                    <i class="fas fa-calendar-alt"></i>
+                    <span>التقويم اليومي</span>
+                </a></li>
+                
+                <li><a href="#" data-page="activities" class="menu-item">
+                    <i class="fas fa-star"></i>
+                    <span>الأنشطة</span>
+                </a></li>
+                
+                <li><a href="#" data-page="excellence" class="menu-item">
+                    <i class="fas fa-trophy"></i>
+                    <span>المتميزون</span>
+                </a></li>
+                
+                <li class="admin-only"><a href="#" data-page="surahs" class="menu-item">
+                    <i class="fas fa-book-quran"></i>
+                    <span>السور والآيات</span>
+                </a></li>
+            </ul>
+        </aside>
+
+        <!-- المحتوى الرئيسي -->
+        <main class="main-content">
+            <!-- لوحة التحكم -->
+            <div id="dashboardPage" class="page active">
+                <div class="page-header">
+                    <h2><i class="fas fa-tachometer-alt"></i> لوحة التحكم</h2>
+                </div>
+                
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <div class="stat-icon">
+                            <i class="fas fa-user-graduate"></i>
+                        </div>
+                        <div class="stat-info">
+                            <h3 id="totalStudents">0</h3>
+                            <p>إجمالي الطلاب</p>
+                        </div>
+                    </div>
+                    
+                    <div class="stat-card">
+                        <div class="stat-icon">
+                            <i class="fas fa-chalkboard-teacher"></i>
+                        </div>
+                        <div class="stat-info">
+                            <h3 id="totalTeachers">0</h3>
+                            <p>إجمالي المعلمين</p>
+                        </div>
+                    </div>
+                    
+                    <div class="stat-card">
+                        <div class="stat-icon">
+                            <i class="fas fa-users"></i>
+                        </div>
+                        <div class="stat-info">
+                            <h3 id="totalCircles">0</h3>
+                            <p>إجمالي الحلقات</p>
+                        </div>
+                    </div>
+                    
+                    <div class="stat-card">
+                        <div class="stat-icon">
+                            <i class="fas fa-calendar-check"></i>
+                        </div>
+                        <div class="stat-info">
+                            <h3 id="todayAttendance">0%</h3>
+                            <p>حضور اليوم</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="dashboard-charts">
+                    <div class="chart-container">
+                        <h3>نسبة الحفظ حسب المستوى</h3>
+                        <canvas id="memorizeChart"></canvas>
+                    </div>
+                    
+                    <div class="chart-container">
+                        <h3>الحضور الأسبوعي</h3>
+                        <canvas id="attendanceChart"></canvas>
+                    </div>
+                </div>
+            </div>
+
+            <!-- صفحة المعلمين -->
+            <div id="teachersPage" class="page">
+                <div class="page-header">
+                    <h2><i class="fas fa-chalkboard-teacher"></i> إدارة المعلمين</h2>
+                    <button id="addTeacherBtn" class="btn btn-primary">
+                        <i class="fas fa-plus"></i>
+                        إضافة معلم جديد
+                    </button>
+                </div>
+                
+                <div class="table-container">
+                    <table id="teachersTable" class="data-table">
+                        <thead>
+                            <tr>
+                                <th>الاسم</th>
+                                <th>رقم الهاتف</th>
+                                <th>الحلقات المسؤول عنها</th>
+                                <th>عدد الطلاب</th>
+                                <th>الإجراءات</th>
+                            </tr>
+                        </thead>
+                        <tbody></tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- صفحة الطلاب -->
+            <div id="studentsPage" class="page">
+                <div class="page-header">
+                    <h2><i class="fas fa-user-graduate"></i> إدارة الطلاب</h2>
+                    <button id="addStudentBtn" class="btn btn-primary">
+                        <i class="fas fa-plus"></i>
+                        إضافة طالب جديد
+                    </button>
+                </div>
+                
+                <div class="filters">
+                    <select id="circleFilter">
+                        <option value="">جميع الحلقات</option>
+                    </select>
+                    <select id="genderFilter">
+                        <option value="">الجنس</option>
+                        <option value="male">ذكر</option>
+                        <option value="female">أنثى</option>
+                    </select>
+                </div>
+                
+                <div class="table-container">
+                    <table id="studentsTable" class="data-table">
+                        <thead>
+                            <tr>
+                                <th>الاسم</th>
+                                <th>الجنس</th>
+                                <th>الحلقة</th>
+                                <th>المعلم</th>
+                                <th>مقدار الحفظ</th>
+                                <th>التقدير</th>
+                                <th>الإجراءات</th>
+                            </tr>
+                        </thead>
+                        <tbody></tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- باقي الصفحات ستكون هنا -->
+            <div id="circlesPage" class="page">
+                <div class="page-header">
+                    <h2><i class="fas fa-users"></i> إدارة الحلقات</h2>
+                    <button id="addCircleBtn" class="btn btn-primary">
+                        <i class="fas fa-plus"></i>
+                        إضافة حلقة جديدة
+                    </button>
+                </div>
+                <div id="circlesContent"></div>
+            </div>
+
+            <div id="attendancePage" class="page">
+                <div class="page-header">
+                    <h2><i class="fas fa-calendar-check"></i> تسجيل الحضور</h2>
+                </div>
+                <div id="attendanceContent"></div>
+            </div>
+
+            <div id="progressPage" class="page">
+                <div class="page-header">
+                    <h2><i class="fas fa-chart-line"></i> متابعة الحفظ</h2>
+                </div>
+                <div id="progressContent"></div>
+            </div>
+
+            <div id="calendarPage" class="page">
+                <div class="page-header">
+                    <h2><i class="fas fa-calendar-alt"></i> التقويم اليومي</h2>
+                </div>
+                <div id="calendarContent"></div>
+            </div>
+
+            <div id="activitiesPage" class="page">
+                <div class="page-header">
+                    <h2><i class="fas fa-star"></i> الأنشطة</h2>
+                </div>
+                <div id="activitiesContent"></div>
+            </div>
+
+            <div id="excellencePage" class="page">
+                <div class="page-header">
+                    <h2><i class="fas fa-trophy"></i> الطلاب المتميزون</h2>
+                </div>
+                <div id="excellenceContent"></div>
+            </div>
+
+            <!-- صفحة الطالب الشخصية -->
+            <div id="studentProfilePage" class="page">
+                <div class="page-header">
+                    <button class="btn btn-secondary" onclick="goBackFromProfile()">
+                        <i class="fas fa-arrow-right"></i> العودة
+                    </button>
+                    <h2 id="studentProfileTitle"><i class="fas fa-user-graduate"></i> ملف الطالب</h2>
+                </div>
+                <div id="studentProfileContent"></div>
+            </div>
+
+            <!-- صفحة السور والآيات -->
+            <div id="surahsPage" class="page">
+                <div class="page-header">
+                    <h2><i class="fas fa-book-quran"></i> إدارة السور والآيات</h2>
+                    <button class="btn btn-primary" onclick="showAddSurahModal()">
+                        <i class="fas fa-plus"></i> إضافة سورة
+                    </button>
+                </div>
+                <div id="surahsContent"></div>
+            </div>
+        </main>
+    </div>
+
+    <!-- النوافذ المنبثقة -->
+    <div id="modalOverlay" class="modal-overlay">
+        <div id="modalContent" class="modal-content"></div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="config.js"></script>
+    <script src="script.js"></script>
+    <script src="enhancements.js"></script>
+</body>
+</html>
