@@ -1,0 +1,561 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>إعادة تعيين البيانات - طوارئ</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        body {
+            background: linear-gradient(135deg, #e74c3c 0%, #c0392b 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: 'Cairo', sans-serif;
+        }
+        
+        .emergency-container {
+            background: white;
+            padding: 3rem;
+            border-radius: 20px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.2);
+            text-align: center;
+            max-width: 500px;
+            width: 90%;
+        }
+        
+        .emergency-icon {
+            font-size: 4rem;
+            color: #e74c3c;
+            margin-bottom: 2rem;
+        }
+        
+        .emergency-title {
+            color: #333;
+            font-size: 2rem;
+            margin-bottom: 1rem;
+            font-weight: 700;
+        }
+        
+        .emergency-description {
+            color: #666;
+            margin-bottom: 2rem;
+            line-height: 1.6;
+        }
+        
+        .warning-box {
+            background: #fff3cd;
+            border: 1px solid #ffeaa7;
+            border-radius: 10px;
+            padding: 1.5rem;
+            margin: 2rem 0;
+            color: #856404;
+        }
+        
+        .warning-box h4 {
+            color: #856404;
+            margin-bottom: 1rem;
+        }
+        
+        .emergency-buttons {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+        
+        .btn {
+            padding: 1rem 2rem;
+            border: none;
+            border-radius: 10px;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-weight: 600;
+        }
+        
+        .btn-danger {
+            background: #e74c3c;
+            color: white;
+        }
+        
+        .btn-danger:hover {
+            background: #c0392b;
+            transform: translateY(-2px);
+        }
+        
+        .btn-secondary {
+            background: #6c757d;
+            color: white;
+        }
+        
+        .btn-secondary:hover {
+            background: #545b62;
+            transform: translateY(-2px);
+        }
+        
+        .btn-success {
+            background: #27ae60;
+            color: white;
+        }
+        
+        .btn-success:hover {
+            background: #229954;
+            transform: translateY(-2px);
+        }
+        
+        .status-message {
+            margin-top: 2rem;
+            padding: 1rem;
+            border-radius: 10px;
+            display: none;
+        }
+        
+        .status-message.success {
+            background: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+        
+        .status-message.error {
+            background: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
+        
+        .data-info {
+            background: #e3f2fd;
+            border: 1px solid #bbdefb;
+            border-radius: 10px;
+            padding: 1.5rem;
+            margin: 2rem 0;
+            color: #0d47a1;
+        }
+        
+        .data-info h4 {
+            color: #0d47a1;
+            margin-bottom: 1rem;
+        }
+        
+        .data-stats {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+        
+        .stat-item {
+            text-align: center;
+            padding: 0.5rem;
+            background: rgba(13, 71, 161, 0.1);
+            border-radius: 5px;
+        }
+        
+        .stat-number {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: #0d47a1;
+        }
+        
+        .stat-label {
+            font-size: 0.9rem;
+            color: #666;
+        }
+    </style>
+</head>
+<body>
+    <div class="emergency-container">
+        <div class="emergency-icon">
+            <i class="fas fa-exclamation-triangle"></i>
+        </div>
+        
+        <h1 class="emergency-title">إعادة تعيين البيانات</h1>
+        
+        <p class="emergency-description">
+            إذا كانت البيانات معطلة أو لا تعمل بشكل صحيح، يمكنك استخدام هذه الصفحة لإعادة تعيين النظام.
+        </p>
+        
+        <div class="data-info">
+            <h4><i class="fas fa-info-circle"></i> حالة البيانات الحالية</h4>
+            <div class="data-stats">
+                <div class="stat-item">
+                    <div class="stat-number" id="teachersCount">-</div>
+                    <div class="stat-label">المعلمون</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-number" id="studentsCount">-</div>
+                    <div class="stat-label">الطلاب</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-number" id="circlesCount">-</div>
+                    <div class="stat-label">الحلقات</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-number" id="usersCount">-</div>
+                    <div class="stat-label">المستخدمون</div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="warning-box">
+            <h4><i class="fas fa-warning"></i> تحذير مهم</h4>
+            <p>إعادة تعيين البيانات سيؤدي إلى:</p>
+            <ul style="text-align: right; margin: 1rem 0;">
+                <li>حذف جميع البيانات الحالية</li>
+                <li>إنشاء بيانات تجريبية جديدة</li>
+                <li>فقدان أي تخصيصات أو إعدادات</li>
+            </ul>
+        </div>
+        
+        <div class="emergency-buttons">
+            <button class="btn btn-danger" onclick="resetAllData()">
+                <i class="fas fa-refresh"></i> إعادة تعيين البيانات
+            </button>
+            
+            <button class="btn btn-success" onclick="checkDataStatus()">
+                <i class="fas fa-check"></i> فحص البيانات
+            </button>
+            
+            <a href="index.html" class="btn btn-secondary">
+                <i class="fas fa-arrow-right"></i> العودة للنظام
+            </a>
+        </div>
+        
+        <div id="statusMessage" class="status-message"></div>
+    </div>
+    
+    <script src="config.js"></script>
+    <script>
+        // إعدادات النظام
+        const SYSTEM_CONFIG = {
+            APP_NAME: 'جمعية تحفيظ القرآن الكريم',
+            VERSION: '1.0.0',
+            STORAGE_PREFIX: 'quran_app_'
+        };
+        
+        // حفظ البيانات في التخزين المحلي
+        function saveToStorage(key, data) {
+            localStorage.setItem(SYSTEM_CONFIG.STORAGE_PREFIX + key, JSON.stringify(data));
+        }
+        
+        // جلب البيانات من التخزين المحلي
+        function getFromStorage(key) {
+            const data = localStorage.getItem(SYSTEM_CONFIG.STORAGE_PREFIX + key);
+            return data ? JSON.parse(data) : null;
+        }
+        
+        // فحص حالة البيانات
+        function checkDataStatus() {
+            const teachers = getFromStorage('teachers') || [];
+            const students = getFromStorage('students') || [];
+            const circles = getFromStorage('circles') || [];
+            const users = getFromStorage('users') || [];
+            
+            document.getElementById('teachersCount').textContent = teachers.length;
+            document.getElementById('studentsCount').textContent = students.length;
+            document.getElementById('circlesCount').textContent = circles.length;
+            document.getElementById('usersCount').textContent = users.length;
+            
+            const statusMessage = document.getElementById('statusMessage');
+            statusMessage.className = 'status-message success';
+            statusMessage.style.display = 'block';
+            statusMessage.innerHTML = `
+                <i class="fas fa-check-circle"></i> تم فحص البيانات بنجاح
+                <br>المعلمون: ${teachers.length} | الطلاب: ${students.length} | الحلقات: ${circles.length} | المستخدمون: ${users.length}
+            `;
+        }
+        
+        // إعادة تعيين جميع البيانات
+        function resetAllData() {
+            if (!confirm('هل أنت متأكد من إعادة تعيين جميع البيانات؟ هذا الإجراء لا يمكن التراجع عنه!')) {
+                return;
+            }
+            
+            try {
+                // مسح جميع البيانات
+                const keysToRemove = [
+                    'initialized',
+                    'teachers',
+                    'students',
+                    'circles',
+                    'users',
+                    'attendance',
+                    'progress',
+                    'activities',
+                    'surahs',
+                    'studentNotes',
+                    'organizationSettings',
+                    'circleAnnouncements',
+                    'circleNotes'
+                ];
+                
+                keysToRemove.forEach(key => {
+                    localStorage.removeItem(SYSTEM_CONFIG.STORAGE_PREFIX + key);
+                });
+                
+                // إنشاء بيانات جديدة
+                createFreshData();
+                
+                const statusMessage = document.getElementById('statusMessage');
+                statusMessage.className = 'status-message success';
+                statusMessage.style.display = 'block';
+                statusMessage.innerHTML = `
+                    <i class="fas fa-check-circle"></i> تم إعادة تعيين البيانات بنجاح!
+                    <br>يمكنك الآن العودة إلى النظام واستخدامه بشكل طبيعي.
+                `;
+                
+                // تحديث العدادات
+                setTimeout(checkDataStatus, 1000);
+                
+            } catch (error) {
+                const statusMessage = document.getElementById('statusMessage');
+                statusMessage.className = 'status-message error';
+                statusMessage.style.display = 'block';
+                statusMessage.innerHTML = `
+                    <i class="fas fa-exclamation-circle"></i> حدث خطأ أثناء إعادة التعيين: ${error.message}
+                `;
+            }
+        }
+        
+        // إنشاء بيانات جديدة
+        function createFreshData() {
+            // المستخدمون
+            const users = [
+                { id: 1, username: 'admin', password: 'admin123', type: 'admin', name: 'مدير النظام', isActive: true },
+                { id: 2, username: 'teacher1', password: 'teacher123', type: 'teacher', name: 'أحمد محمد', teacherId: 1, isActive: true },
+                { id: 3, username: 'teacher2', password: 'teacher123', type: 'teacher', name: 'فاطمة علي', teacherId: 2, isActive: true }
+            ];
+            
+            // المعلمون
+            const teachers = [
+                {
+                    id: 1,
+                    name: 'أحمد محمد السعدي',
+                    phone: '0501234567',
+                    specialization: 'تحفيظ القرآن الكريم',
+                    experience: 5,
+                    circles: [1, 2],
+                    createdAt: new Date().toISOString()
+                },
+                {
+                    id: 2,
+                    name: 'فاطمة علي الزهراني',
+                    phone: '0507654321',
+                    specialization: 'تحفيظ القرآن الكريم',
+                    experience: 3,
+                    circles: [3],
+                    createdAt: new Date().toISOString()
+                },
+                {
+                    id: 3,
+                    name: 'محمد عبدالله القحطاني',
+                    phone: '0509876543',
+                    specialization: 'تحفيظ القرآن الكريم',
+                    experience: 7,
+                    circles: [4],
+                    createdAt: new Date().toISOString()
+                }
+            ];
+            
+            // الحلقات
+            const circles = [
+                {
+                    id: 1,
+                    name: 'حلقة الفجر للذكور',
+                    teacherId: 1,
+                    mosque: 'مسجد النور',
+                    time: 'فجر',
+                    gender: 'male',
+                    maxStudents: 15,
+                    createdAt: new Date().toISOString()
+                },
+                {
+                    id: 2,
+                    name: 'حلقة العصر للذكور',
+                    teacherId: 1,
+                    mosque: 'مسجد الهدى',
+                    time: 'عصر',
+                    gender: 'male',
+                    maxStudents: 20,
+                    createdAt: new Date().toISOString()
+                },
+                {
+                    id: 3,
+                    name: 'حلقة المغرب للإناث',
+                    teacherId: 2,
+                    mosque: 'مسجد الرحمة',
+                    time: 'مغرب',
+                    gender: 'female',
+                    maxStudents: 12,
+                    createdAt: new Date().toISOString()
+                },
+                {
+                    id: 4,
+                    name: 'حلقة العشاء للذكور',
+                    teacherId: 3,
+                    mosque: 'مسجد التوحيد',
+                    time: 'عشاء',
+                    gender: 'male',
+                    maxStudents: 18,
+                    createdAt: new Date().toISOString()
+                }
+            ];
+            
+            // الطلاب
+            const students = [
+                {
+                    id: 1,
+                    name: 'عبدالله أحمد المطيري',
+                    circleId: 1,
+                    level: 'متوسط',
+                    memorized: 5,
+                    grade: 'good',
+                    phone: '0551234567',
+                    createdAt: new Date().toISOString()
+                },
+                {
+                    id: 2,
+                    name: 'محمد سعد العتيبي',
+                    circleId: 1,
+                    level: 'متقدم',
+                    memorized: 12,
+                    grade: 'excellent',
+                    phone: '0557654321',
+                    createdAt: new Date().toISOString()
+                },
+                {
+                    id: 3,
+                    name: 'خالد عبدالعزيز الدوسري',
+                    circleId: 2,
+                    level: 'مبتدئ',
+                    memorized: 2,
+                    grade: 'average',
+                    phone: '0559876543',
+                    createdAt: new Date().toISOString()
+                },
+                {
+                    id: 4,
+                    name: 'عائشة محمد الغامدي',
+                    circleId: 3,
+                    level: 'متقدم',
+                    memorized: 15,
+                    grade: 'excellent',
+                    phone: '0552468135',
+                    createdAt: new Date().toISOString()
+                },
+                {
+                    id: 5,
+                    name: 'فاطمة علي الشهري',
+                    circleId: 3,
+                    level: 'متوسط',
+                    memorized: 8,
+                    grade: 'good',
+                    phone: '0558642097',
+                    createdAt: new Date().toISOString()
+                },
+                {
+                    id: 6,
+                    name: 'يوسف عبدالرحمن النجدي',
+                    circleId: 4,
+                    level: 'متقدم',
+                    memorized: 20,
+                    grade: 'excellent',
+                    phone: '0553691470',
+                    createdAt: new Date().toISOString()
+                }
+            ];
+            
+            // السور
+            const surahs = [
+                { id: 1, name: 'الفاتحة', verses: 7, juz: 1 },
+                { id: 2, name: 'البقرة', verses: 286, juz: 1 },
+                { id: 3, name: 'آل عمران', verses: 200, juz: 3 },
+                { id: 4, name: 'النساء', verses: 176, juz: 4 },
+                { id: 5, name: 'المائدة', verses: 120, juz: 6 }
+            ];
+            
+            // حفظ البيانات
+            saveToStorage('users', users);
+            saveToStorage('teachers', teachers);
+            saveToStorage('circles', circles);
+            saveToStorage('students', students);
+            saveToStorage('surahs', surahs);
+            saveToStorage('attendance', []);
+            saveToStorage('progress', []);
+            saveToStorage('activities', []);
+            saveToStorage('studentNotes', []);
+            
+            // إعدادات الجمعية الافتراضية
+            const organizationSettings = {
+                name: 'جمعية تحفيظ القرآن الكريم',
+                logo: '',
+                description: 'نظام إدارة الحلقات والطلاب',
+                address: '',
+                phone: '',
+                email: '',
+                website: '',
+                establishedYear: new Date().getFullYear(),
+                colors: {
+                    primary: '#667eea',
+                    secondary: '#764ba2',
+                    accent: '#28a745'
+                }
+            };
+            saveToStorage('organizationSettings', organizationSettings);
+            
+            // إعلانات تجريبية
+            const announcements = [
+                {
+                    id: 1,
+                    circleId: 1,
+                    title: 'مسابقة الحفظ الشهرية',
+                    content: 'ستقام مسابقة الحفظ الشهرية يوم الجمعة القادم في المسجد الكبير.',
+                    priority: 'high',
+                    date: new Date().toISOString()
+                },
+                {
+                    id: 2,
+                    circleId: 2,
+                    title: 'تغيير موعد الحلقة',
+                    content: 'تم تغيير موعد حلقة الغد من بعد العصر إلى بعد المغرب.',
+                    priority: 'normal',
+                    date: new Date().toISOString()
+                }
+            ];
+            saveToStorage('circleAnnouncements', announcements);
+            
+            // ملاحظات تجريبية
+            const notes = [
+                {
+                    id: 1,
+                    circleId: 1,
+                    content: 'يرجى مراجعة الأجزاء المحفوظة قبل الحلقة القادمة والتأكد من إتقان التجويد.',
+                    date: new Date().toISOString()
+                },
+                {
+                    id: 2,
+                    circleId: 2,
+                    content: 'تذكير: سيتم اختبار الطلاب في الجزء الأول من القرآن الكريم الأسبوع القادم.',
+                    date: new Date().toISOString()
+                }
+            ];
+            saveToStorage('circleNotes', notes);
+            
+            // تعيين علامة التهيئة
+            localStorage.setItem(SYSTEM_CONFIG.STORAGE_PREFIX + 'initialized', 'true');
+        }
+        
+        // فحص البيانات عند تحميل الصفحة
+        document.addEventListener('DOMContentLoaded', function() {
+            checkDataStatus();
+        });
+    </script>
+</body>
+</html>

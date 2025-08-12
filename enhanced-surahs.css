@@ -1,0 +1,857 @@
+/* ==================== تصميم نظام السور المحسن ==================== */
+
+.enhanced-surahs-page {
+    padding: 0;
+}
+
+/* إحصائيات السور */
+.surahs-stats {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 1.5rem;
+    margin-bottom: 2rem;
+}
+
+.surahs-stats .stat-card {
+    background: white;
+    padding: 1.5rem;
+    border-radius: 15px;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    transition: transform 0.3s ease;
+}
+
+.surahs-stats .stat-card:hover {
+    transform: translateY(-5px);
+}
+
+/* مرشحات السور */
+.surahs-filters {
+    background: white;
+    padding: 1.5rem;
+    border-radius: 15px;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+    margin-bottom: 2rem;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 1rem;
+    align-items: end;
+}
+
+.filter-group {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.filter-group label {
+    font-weight: 600;
+    color: #333;
+    font-size: 0.9rem;
+}
+
+.filter-group input,
+.filter-group select {
+    padding: 0.75rem;
+    border: 2px solid #e1e5e9;
+    border-radius: 8px;
+    font-size: 0.9rem;
+    transition: border-color 0.3s;
+}
+
+.filter-group input:focus,
+.filter-group select:focus {
+    outline: none;
+    border-color: #667eea;
+}
+
+.filter-actions {
+    display: flex;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+}
+
+/* قائمة السور */
+.surahs-list {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+    gap: 1.5rem;
+    margin-bottom: 2rem;
+}
+
+.surah-card {
+    background: white;
+    border-radius: 15px;
+    padding: 1.5rem;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+    transition: transform 0.3s ease;
+    border: 2px solid transparent;
+}
+
+.surah-card:hover {
+    transform: translateY(-5px);
+    border-color: #667eea;
+}
+
+.surah-header {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    margin-bottom: 1rem;
+}
+
+.surah-number {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+    font-size: 1.1rem;
+    flex-shrink: 0;
+}
+
+.surah-info h3 {
+    margin: 0 0 0.5rem 0;
+    color: #333;
+    font-size: 1.3rem;
+}
+
+.surah-details {
+    display: flex;
+    gap: 1rem;
+    flex-wrap: wrap;
+}
+
+.surah-verses,
+.surah-type,
+.surah-juz {
+    display: flex;
+    align-items: center;
+    gap: 0.25rem;
+    font-size: 0.8rem;
+    color: #666;
+}
+
+.surah-type {
+    padding: 0.25rem 0.5rem;
+    border-radius: 15px;
+    font-weight: 600;
+}
+
+.surah-type.meccan {
+    background: #fff3cd;
+    color: #856404;
+}
+
+.surah-type.medinan {
+    background: #d1ecf1;
+    color: #0c5460;
+}
+
+/* إحصائيات السورة */
+.surah-stats {
+    display: flex;
+    gap: 1rem;
+    margin: 1rem 0;
+    padding: 1rem;
+    background: #f8f9fa;
+    border-radius: 10px;
+}
+
+.stat-item {
+    text-align: center;
+    flex: 1;
+}
+
+.stat-value {
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: #667eea;
+    margin-bottom: 0.25rem;
+}
+
+.stat-label {
+    font-size: 0.8rem;
+    color: #666;
+}
+
+/* أزرار السورة */
+.surah-actions {
+    display: flex;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+    margin-top: 1rem;
+}
+
+.surah-actions .btn {
+    flex: 1;
+    min-width: 120px;
+}
+
+/* إدارة سور الطلاب */
+.student-surahs-management {
+    background: white;
+    border-radius: 15px;
+    padding: 2rem;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+}
+
+.student-surahs-management h3 {
+    margin-bottom: 1.5rem;
+    color: #333;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.students-surahs-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+    gap: 1.5rem;
+}
+
+.student-surahs-card {
+    background: #f8f9fa;
+    border-radius: 10px;
+    padding: 1.5rem;
+    border: 1px solid #e1e5e9;
+}
+
+.student-header {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    margin-bottom: 1rem;
+    padding-bottom: 1rem;
+    border-bottom: 1px solid #e1e5e9;
+}
+
+.student-avatar {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #28a745 0%, #20c997 100%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-size: 1.2rem;
+}
+
+.student-info h4 {
+    margin: 0 0 0.25rem 0;
+    color: #333;
+}
+
+.student-info p {
+    margin: 0;
+    color: #666;
+    font-size: 0.9rem;
+}
+
+.student-surahs-list {
+    min-height: 100px;
+}
+
+.assigned-surah {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    padding: 0.75rem;
+    background: white;
+    border-radius: 8px;
+    margin-bottom: 0.5rem;
+    border: 1px solid #e1e5e9;
+}
+
+.surah-name {
+    flex: 1;
+    font-weight: 600;
+    color: #333;
+}
+
+.surah-progress-bar {
+    width: 60px;
+    height: 6px;
+    background: #e1e5e9;
+    border-radius: 3px;
+    overflow: hidden;
+}
+
+.progress-fill {
+    height: 100%;
+    background: linear-gradient(135deg, #28a745 0%, #20c997 100%);
+    transition: width 0.3s ease;
+}
+
+.surah-progress {
+    font-size: 0.8rem;
+    color: #666;
+    min-width: 35px;
+    text-align: center;
+}
+
+.no-surahs {
+    text-align: center;
+    color: #666;
+    font-style: italic;
+    padding: 2rem;
+    background: white;
+    border-radius: 8px;
+    border: 2px dashed #e1e5e9;
+}
+
+/* النوافذ المنبثقة للسور */
+.manage-student-surahs-modal,
+.surah-details-modal,
+.bulk-assign-modal,
+.update-progress-modal {
+    max-width: 800px;
+    width: 100%;
+    max-height: 90vh;
+    overflow-y: auto;
+}
+
+/* تبويبات السور */
+.student-surahs-tabs {
+    margin-bottom: 2rem;
+}
+
+.tab-buttons {
+    display: flex;
+    gap: 0.5rem;
+    margin-bottom: 1rem;
+    flex-wrap: wrap;
+}
+
+.tab-btn {
+    padding: 0.75rem 1.5rem;
+    border: 2px solid #e1e5e9;
+    background: white;
+    color: #666;
+    border-radius: 25px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-weight: 600;
+}
+
+.tab-btn.active,
+.tab-btn:hover {
+    background: #667eea;
+    color: white;
+    border-color: #667eea;
+}
+
+.tab-content {
+    min-height: 300px;
+}
+
+.tab-pane {
+    display: none;
+}
+
+.tab-pane.active {
+    display: block;
+}
+
+/* السور المعينة */
+.assigned-surahs-list {
+    margin-bottom: 1.5rem;
+}
+
+.assigned-surah-item {
+    background: #f8f9fa;
+    border-radius: 10px;
+    padding: 1.5rem;
+    margin-bottom: 1rem;
+    border: 1px solid #e1e5e9;
+}
+
+.assigned-surah-item .surah-info h4 {
+    margin: 0 0 0.5rem 0;
+    color: #333;
+}
+
+.assigned-surah-item .surah-info p {
+    margin: 0 0 0.25rem 0;
+    color: #666;
+    font-size: 0.9rem;
+}
+
+.assigned-surah-item .surah-info small {
+    color: #999;
+    font-size: 0.8rem;
+}
+
+.assigned-surah-item .surah-progress {
+    margin: 1rem 0;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.assigned-surah-item .progress-bar {
+    flex: 1;
+    height: 8px;
+    background: #e1e5e9;
+    border-radius: 4px;
+    overflow: hidden;
+}
+
+.assigned-surah-item .surah-actions {
+    display: flex;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+}
+
+.no-assigned-surahs {
+    text-align: center;
+    padding: 3rem;
+    color: #666;
+}
+
+.no-assigned-surahs i {
+    font-size: 3rem;
+    color: #ccc;
+    margin-bottom: 1rem;
+}
+
+/* السور المتاحة */
+.available-surahs-search {
+    margin-bottom: 1rem;
+}
+
+.available-surahs-search input {
+    width: 100%;
+    padding: 0.75rem;
+    border: 2px solid #e1e5e9;
+    border-radius: 8px;
+    font-size: 1rem;
+}
+
+.available-surahs-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 1rem;
+}
+
+.available-surah-card {
+    background: white;
+    border: 1px solid #e1e5e9;
+    border-radius: 10px;
+    padding: 1rem;
+    text-align: center;
+    transition: transform 0.3s ease;
+}
+
+.available-surah-card:hover {
+    transform: translateY(-3px);
+    border-color: #667eea;
+}
+
+.available-surah-card .surah-header {
+    margin-bottom: 1rem;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.available-surah-card .surah-number {
+    width: 40px;
+    height: 40px;
+    font-size: 1rem;
+    margin: 0 auto;
+}
+
+.available-surah-card h4 {
+    margin: 0;
+    color: #333;
+}
+
+.available-surah-card .surah-details {
+    justify-content: center;
+    margin-bottom: 1rem;
+}
+
+.no-available-surahs {
+    text-align: center;
+    padding: 3rem;
+    color: #28a745;
+}
+
+.no-available-surahs i {
+    font-size: 3rem;
+    color: #28a745;
+    margin-bottom: 1rem;
+}
+
+/* تتبع التقدم */
+.progress-overview {
+    background: #f8f9fa;
+    border-radius: 10px;
+    padding: 1.5rem;
+}
+
+.progress-stats {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    gap: 1rem;
+    margin-bottom: 2rem;
+}
+
+.progress-stat {
+    background: white;
+    padding: 1rem;
+    border-radius: 10px;
+    text-align: center;
+    border: 1px solid #e1e5e9;
+}
+
+.progress-details h4 {
+    margin-bottom: 1rem;
+    color: #333;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.progress-list {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.progress-item {
+    background: white;
+    border-radius: 10px;
+    padding: 1rem;
+    border: 1px solid #e1e5e9;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.progress-surah-info h5 {
+    margin: 0 0 0.25rem 0;
+    color: #333;
+}
+
+.progress-surah-info p {
+    margin: 0;
+    color: #666;
+    font-size: 0.8rem;
+}
+
+.progress-bar-container {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.progress-bar-container .progress-bar {
+    flex: 1;
+    height: 8px;
+    background: #e1e5e9;
+    border-radius: 4px;
+    overflow: hidden;
+}
+
+.progress-percentage {
+    font-size: 0.9rem;
+    color: #666;
+    min-width: 40px;
+    text-align: center;
+}
+
+.progress-status {
+    min-width: 80px;
+    text-align: center;
+}
+
+.status-complete {
+    color: #28a745;
+    font-size: 0.8rem;
+    font-weight: 600;
+}
+
+.status-progress {
+    color: #ffc107;
+    font-size: 0.8rem;
+    font-weight: 600;
+}
+
+.status-started {
+    color: #17a2b8;
+    font-size: 0.8rem;
+    font-weight: 600;
+}
+
+/* تحديث التقدم */
+.update-progress-modal .progress-info {
+    background: #f8f9fa;
+    border-radius: 10px;
+    padding: 1.5rem;
+    margin-bottom: 2rem;
+}
+
+.student-surah-info {
+    text-align: center;
+    margin-bottom: 1rem;
+}
+
+.student-surah-info h4 {
+    margin: 0 0 0.5rem 0;
+    color: #333;
+}
+
+.student-surah-info p {
+    margin: 0;
+    color: #666;
+}
+
+.current-progress {
+    margin-top: 1rem;
+}
+
+.current-progress label {
+    display: block;
+    margin-bottom: 0.5rem;
+    color: #333;
+    font-weight: 600;
+}
+
+.progress-display {
+    margin-top: 1rem;
+    text-align: center;
+}
+
+.progress-display .progress-bar {
+    height: 20px;
+    background: #e1e5e9;
+    border-radius: 10px;
+    overflow: hidden;
+    margin: 0.5rem 0;
+}
+
+#progressValue {
+    font-size: 1.2rem;
+    font-weight: bold;
+    color: #667eea;
+}
+
+.quick-progress-buttons {
+    display: flex;
+    gap: 0.5rem;
+    justify-content: center;
+    margin: 1rem 0;
+    flex-wrap: wrap;
+}
+
+/* التعيين الجماعي */
+.bulk-assign-modal .surah-info {
+    background: #f8f9fa;
+    border-radius: 10px;
+    padding: 1rem;
+    margin-bottom: 2rem;
+    text-align: center;
+}
+
+.students-selection {
+    margin-bottom: 2rem;
+}
+
+.selection-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1rem;
+}
+
+.selection-header h4 {
+    margin: 0;
+    color: #333;
+}
+
+.selection-actions {
+    display: flex;
+    gap: 0.5rem;
+}
+
+.students-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 1rem;
+    max-height: 400px;
+    overflow-y: auto;
+    padding: 1rem;
+    border: 1px solid #e1e5e9;
+    border-radius: 10px;
+}
+
+.student-selection-item {
+    background: white;
+    border-radius: 8px;
+    border: 1px solid #e1e5e9;
+    transition: all 0.3s ease;
+}
+
+.student-selection-item:hover {
+    border-color: #667eea;
+}
+
+.student-checkbox {
+    display: block;
+    padding: 1rem;
+    cursor: pointer;
+}
+
+.student-checkbox input[type="checkbox"] {
+    margin-bottom: 0.5rem;
+}
+
+.student-checkbox .student-info h5 {
+    margin: 0 0 0.25rem 0;
+    color: #333;
+}
+
+.student-checkbox .student-info p {
+    margin: 0;
+    color: #666;
+    font-size: 0.8rem;
+}
+
+.no-available-students {
+    text-align: center;
+    padding: 2rem;
+    color: #666;
+    font-style: italic;
+}
+
+.assignment-options {
+    background: #f8f9fa;
+    border-radius: 10px;
+    padding: 1.5rem;
+    margin-bottom: 2rem;
+}
+
+/* تصميم متجاوب */
+@media (max-width: 768px) {
+    .surahs-filters {
+        grid-template-columns: 1fr;
+        gap: 1rem;
+    }
+    
+    .filter-actions {
+        grid-column: 1 / -1;
+        justify-content: center;
+    }
+    
+    .surahs-list {
+        grid-template-columns: 1fr;
+        gap: 1rem;
+    }
+    
+    .surah-header {
+        flex-direction: column;
+        text-align: center;
+        gap: 0.5rem;
+    }
+    
+    .surah-details {
+        justify-content: center;
+    }
+    
+    .surah-actions {
+        flex-direction: column;
+    }
+    
+    .surah-actions .btn {
+        min-width: auto;
+    }
+    
+    .students-surahs-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .student-header {
+        flex-direction: column;
+        text-align: center;
+        gap: 1rem;
+    }
+    
+    .assigned-surah {
+        flex-direction: column;
+        text-align: center;
+        gap: 0.5rem;
+    }
+    
+    .surah-progress-bar {
+        width: 100%;
+    }
+    
+    .tab-buttons {
+        flex-direction: column;
+    }
+    
+    .available-surahs-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .progress-stats {
+        grid-template-columns: repeat(2, 1fr);
+    }
+    
+    .progress-item {
+        flex-direction: column;
+        text-align: center;
+        gap: 1rem;
+    }
+    
+    .progress-bar-container {
+        width: 100%;
+    }
+    
+    .students-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .selection-header {
+        flex-direction: column;
+        gap: 1rem;
+        text-align: center;
+    }
+    
+    .quick-progress-buttons {
+        flex-direction: column;
+    }
+}
+
+@media (max-width: 480px) {
+    .surahs-stats {
+        grid-template-columns: 1fr;
+    }
+    
+    .surah-stats {
+        flex-direction: column;
+        gap: 0.5rem;
+    }
+    
+    .progress-stats {
+        grid-template-columns: 1fr;
+    }
+    
+    .assigned-surah-item .surah-actions {
+        flex-direction: column;
+    }
+    
+    .selection-actions {
+        flex-direction: column;
+        width: 100%;
+    }
+}

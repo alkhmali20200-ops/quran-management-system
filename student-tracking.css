@@ -1,0 +1,771 @@
+/* ==================== تصميم نظام متابعة الطلاب ==================== */
+
+.student-tracking-page {
+    padding: 0;
+}
+
+/* إحصائيات سريعة */
+.tracking-stats {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 1.5rem;
+    margin-bottom: 2rem;
+}
+
+.tracking-stats .stat-card {
+    background: white;
+    padding: 1.5rem;
+    border-radius: 15px;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    transition: transform 0.3s ease;
+}
+
+.tracking-stats .stat-card:hover {
+    transform: translateY(-5px);
+}
+
+/* مرشحات البحث */
+.tracking-filters {
+    background: white;
+    padding: 1.5rem;
+    border-radius: 15px;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+    margin-bottom: 2rem;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 1rem;
+}
+
+.filter-group {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.filter-group label {
+    font-weight: 600;
+    color: #333;
+    font-size: 0.9rem;
+}
+
+.filter-group input,
+.filter-group select {
+    padding: 0.75rem;
+    border: 2px solid #e1e5e9;
+    border-radius: 8px;
+    font-size: 0.9rem;
+    transition: border-color 0.3s;
+}
+
+.filter-group input:focus,
+.filter-group select:focus {
+    outline: none;
+    border-color: #667eea;
+}
+
+/* جدول متابعة الطلاب */
+.students-tracking-table {
+    background: white;
+    border-radius: 15px;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+    overflow: hidden;
+    margin-bottom: 2rem;
+}
+
+.table-header {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    padding: 1.5rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.table-header h3 {
+    margin: 0;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.table-responsive {
+    overflow-x: auto;
+}
+
+.data-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.data-table th {
+    background: #f8f9fa;
+    padding: 1rem;
+    text-align: right;
+    font-weight: 600;
+    color: #333;
+    border-bottom: 2px solid #e1e5e9;
+}
+
+.data-table td {
+    padding: 1rem;
+    border-bottom: 1px solid #e1e5e9;
+    vertical-align: middle;
+}
+
+.data-table tr:hover {
+    background: #f8f9fa;
+}
+
+/* خلايا الطلاب */
+.student-cell {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+}
+
+.student-avatar {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-size: 1.2rem;
+}
+
+.student-details strong {
+    display: block;
+    color: #333;
+    margin-bottom: 0.25rem;
+}
+
+.student-details small {
+    color: #666;
+    font-size: 0.8rem;
+}
+
+/* شارات المستوى */
+.level-badge {
+    padding: 0.25rem 0.75rem;
+    border-radius: 20px;
+    font-size: 0.8rem;
+    font-weight: 600;
+    text-transform: uppercase;
+}
+
+.level-badge.beginner {
+    background: #fff3cd;
+    color: #856404;
+}
+
+.level-badge.intermediate {
+    background: #d1ecf1;
+    color: #0c5460;
+}
+
+.level-badge.advanced {
+    background: #d4edda;
+    color: #155724;
+}
+
+/* شارات التقدير */
+.grade-badge {
+    padding: 0.25rem 0.75rem;
+    border-radius: 20px;
+    font-size: 0.8rem;
+    font-weight: 600;
+}
+
+.grade-badge.excellent {
+    background: #d4edda;
+    color: #155724;
+}
+
+.grade-badge.good {
+    background: #d1ecf1;
+    color: #0c5460;
+}
+
+.grade-badge.average {
+    background: #fff3cd;
+    color: #856404;
+}
+
+.grade-badge.weak {
+    background: #f8d7da;
+    color: #721c24;
+}
+
+/* شريط التقدم */
+.memorization-progress {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.progress-bar {
+    width: 60px;
+    height: 8px;
+    background: #e1e5e9;
+    border-radius: 4px;
+    overflow: hidden;
+}
+
+.progress-fill {
+    height: 100%;
+    background: linear-gradient(135deg, #28a745 0%, #20c997 100%);
+    transition: width 0.3s ease;
+}
+
+/* مؤشر الحضور */
+.attendance-indicator {
+    padding: 0.25rem 0.5rem;
+    border-radius: 15px;
+    font-size: 0.8rem;
+    font-weight: 600;
+    text-align: center;
+}
+
+.attendance-indicator.good {
+    background: #d4edda;
+    color: #155724;
+}
+
+.attendance-indicator.average {
+    background: #fff3cd;
+    color: #856404;
+}
+
+.attendance-indicator.poor {
+    background: #f8d7da;
+    color: #721c24;
+}
+
+/* أزرار الإجراءات */
+.action-buttons {
+    display: flex;
+    gap: 0.25rem;
+    flex-wrap: wrap;
+}
+
+.action-buttons .btn {
+    padding: 0.4rem 0.6rem;
+    font-size: 0.8rem;
+}
+
+/* الرسوم البيانية */
+.tracking-charts {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+    gap: 2rem;
+    margin-bottom: 2rem;
+}
+
+.chart-container {
+    background: white;
+    padding: 1.5rem;
+    border-radius: 15px;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+}
+
+.chart-container h3 {
+    margin-bottom: 1rem;
+    color: #333;
+    text-align: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+}
+
+.chart-container canvas {
+    max-height: 300px;
+}
+
+/* أفضل الطلاب */
+.top-students-section {
+    background: white;
+    padding: 2rem;
+    border-radius: 15px;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+    margin-bottom: 2rem;
+}
+
+.top-students-section h3 {
+    margin-bottom: 1.5rem;
+    color: #333;
+    text-align: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+}
+
+.top-students-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 1.5rem;
+}
+
+.top-student-card {
+    background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+    padding: 1.5rem;
+    border-radius: 15px;
+    position: relative;
+    border: 2px solid #e1e5e9;
+    transition: transform 0.3s ease;
+}
+
+.top-student-card:hover {
+    transform: translateY(-5px);
+}
+
+.top-student-card.gold {
+    background: linear-gradient(135deg, #ffd700 0%, #ffed4e 100%);
+    border-color: #ffd700;
+}
+
+.top-student-card.silver {
+    background: linear-gradient(135deg, #c0c0c0 0%, #e5e5e5 100%);
+    border-color: #c0c0c0;
+}
+
+.top-student-card.bronze {
+    background: linear-gradient(135deg, #cd7f32 0%, #daa520 100%);
+    border-color: #cd7f32;
+}
+
+.rank-badge {
+    position: absolute;
+    top: -10px;
+    right: -10px;
+    width: 30px;
+    height: 30px;
+    background: #667eea;
+    color: white;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+    font-size: 0.9rem;
+}
+
+.top-student-card .student-info h4 {
+    margin-bottom: 0.5rem;
+    color: #333;
+}
+
+.top-student-card .student-info p {
+    margin-bottom: 0.25rem;
+    color: #666;
+    font-size: 0.9rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.student-actions {
+    margin-top: 1rem;
+    text-align: center;
+}
+
+/* الطلاب الذين يحتاجون متابعة */
+.attention-needed-section {
+    background: white;
+    padding: 2rem;
+    border-radius: 15px;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+    margin-bottom: 2rem;
+}
+
+.attention-needed-section h3 {
+    margin-bottom: 1.5rem;
+    color: #dc3545;
+    text-align: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+}
+
+.attention-students-list {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.attention-student-card {
+    background: #fff5f5;
+    border: 1px solid #fed7d7;
+    border-radius: 10px;
+    padding: 1rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 1rem;
+}
+
+.attention-student-card .student-info h4 {
+    margin-bottom: 0.5rem;
+    color: #333;
+}
+
+.attention-reasons {
+    display: flex;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+}
+
+.reason-badge {
+    padding: 0.25rem 0.5rem;
+    border-radius: 15px;
+    font-size: 0.75rem;
+    font-weight: 600;
+}
+
+.reason-badge.warning {
+    background: #fff3cd;
+    color: #856404;
+}
+
+.reason-badge.danger {
+    background: #f8d7da;
+    color: #721c24;
+}
+
+.reason-badge.info {
+    background: #d1ecf1;
+    color: #0c5460;
+}
+
+/* النوافذ المنبثقة */
+.student-details-modal,
+.add-note-modal,
+.record-progress-modal,
+.contact-parent-modal,
+.student-report-modal {
+    max-width: 800px;
+    width: 100%;
+}
+
+.student-details-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 1.5rem;
+    margin-bottom: 2rem;
+}
+
+.detail-section {
+    background: #f8f9fa;
+    padding: 1.5rem;
+    border-radius: 10px;
+}
+
+.detail-section h4 {
+    margin-bottom: 1rem;
+    color: #333;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 1.1rem;
+}
+
+.detail-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.5rem 0;
+    border-bottom: 1px solid #e1e5e9;
+}
+
+.detail-item:last-child {
+    border-bottom: none;
+}
+
+.detail-item label {
+    font-weight: 600;
+    color: #666;
+}
+
+.detail-item span {
+    color: #333;
+}
+
+/* ملاحظات الطلاب */
+.student-notes-section {
+    background: #f8f9fa;
+    padding: 1.5rem;
+    border-radius: 10px;
+    margin-bottom: 2rem;
+}
+
+.student-notes-section h4 {
+    margin-bottom: 1rem;
+    color: #333;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.notes-list {
+    max-height: 200px;
+    overflow-y: auto;
+    margin-bottom: 1rem;
+}
+
+.note-item {
+    background: white;
+    padding: 1rem;
+    border-radius: 8px;
+    margin-bottom: 0.5rem;
+    border-left: 4px solid #667eea;
+}
+
+.note-content {
+    color: #333;
+    margin-bottom: 0.5rem;
+}
+
+.note-date {
+    color: #666;
+    font-size: 0.8rem;
+}
+
+.no-notes {
+    text-align: center;
+    color: #666;
+    font-style: italic;
+    padding: 2rem;
+}
+
+/* تقرير الطلاب */
+.report-header {
+    text-align: center;
+    margin-bottom: 2rem;
+    padding-bottom: 1rem;
+    border-bottom: 2px solid #e1e5e9;
+}
+
+.report-meta {
+    margin-top: 1rem;
+    color: #666;
+}
+
+.report-summary {
+    margin-bottom: 2rem;
+}
+
+.summary-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    gap: 1rem;
+    margin-top: 1rem;
+}
+
+.summary-item {
+    background: #f8f9fa;
+    padding: 1rem;
+    border-radius: 10px;
+    text-align: center;
+}
+
+.summary-number {
+    font-size: 2rem;
+    font-weight: bold;
+    color: #667eea;
+    margin-bottom: 0.5rem;
+}
+
+.summary-label {
+    color: #666;
+    font-size: 0.9rem;
+}
+
+.students-details {
+    margin-bottom: 2rem;
+}
+
+.report-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 1rem;
+}
+
+.report-table th,
+.report-table td {
+    padding: 0.75rem;
+    text-align: right;
+    border-bottom: 1px solid #e1e5e9;
+}
+
+.report-table th {
+    background: #f8f9fa;
+    font-weight: 600;
+    color: #333;
+}
+
+/* خيارات الاتصال */
+.contact-info {
+    background: #f8f9fa;
+    padding: 1rem;
+    border-radius: 8px;
+    margin-bottom: 1.5rem;
+    text-align: center;
+}
+
+.contact-options {
+    display: flex;
+    gap: 1rem;
+    justify-content: center;
+    margin-bottom: 1.5rem;
+    flex-wrap: wrap;
+}
+
+.contact-options .btn {
+    flex: 1;
+    min-width: 120px;
+}
+
+.quick-messages {
+    background: #f8f9fa;
+    padding: 1rem;
+    border-radius: 8px;
+    margin-bottom: 1.5rem;
+}
+
+.quick-messages h4 {
+    margin-bottom: 1rem;
+    color: #333;
+}
+
+.quick-messages .btn {
+    margin: 0.25rem;
+}
+
+/* تصميم متجاوب */
+@media (max-width: 768px) {
+    .tracking-stats {
+        grid-template-columns: 1fr;
+        gap: 1rem;
+    }
+    
+    .tracking-filters {
+        grid-template-columns: 1fr;
+        padding: 1rem;
+    }
+    
+    .table-header {
+        flex-direction: column;
+        gap: 1rem;
+        text-align: center;
+    }
+    
+    .data-table {
+        font-size: 0.8rem;
+    }
+    
+    .data-table th,
+    .data-table td {
+        padding: 0.5rem;
+    }
+    
+    .student-cell {
+        flex-direction: column;
+        text-align: center;
+        gap: 0.5rem;
+    }
+    
+    .action-buttons {
+        flex-direction: column;
+        gap: 0.25rem;
+    }
+    
+    .action-buttons .btn {
+        width: 100%;
+    }
+    
+    .tracking-charts {
+        grid-template-columns: 1fr;
+        gap: 1rem;
+    }
+    
+    .top-students-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .attention-student-card {
+        flex-direction: column;
+        text-align: center;
+        gap: 1rem;
+    }
+    
+    .student-details-grid {
+        grid-template-columns: 1fr;
+        gap: 1rem;
+    }
+    
+    .contact-options {
+        flex-direction: column;
+    }
+    
+    .summary-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (max-width: 480px) {
+    .tracking-stats .stat-card {
+        flex-direction: column;
+        text-align: center;
+        gap: 0.5rem;
+    }
+    
+    .summary-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .reason-badge {
+        font-size: 0.7rem;
+    }
+    
+    .progress-bar {
+        width: 40px;
+    }
+}
+
+/* طباعة التقرير */
+@media print {
+    .tracking-filters,
+    .chart-container,
+    .btn,
+    .modal-actions,
+    .report-actions {
+        display: none !important;
+    }
+    
+    .student-tracking-page,
+    .student-report-modal {
+        background: white !important;
+        box-shadow: none !important;
+        padding: 0 !important;
+    }
+    
+    .report-table,
+    .data-table {
+        border: 1px solid #333 !important;
+    }
+    
+    .report-table th,
+    .report-table td,
+    .data-table th,
+    .data-table td {
+        border: 1px solid #333 !important;
+        padding: 0.5rem !important;
+    }
+}

@@ -24,7 +24,6 @@ let systemData = {
 document.addEventListener('DOMContentLoaded', function() {
     initializeSystem();
     setupEventListeners();
-    loadSystemData();
 });
 
 // تهيئة النظام
@@ -34,6 +33,9 @@ function initializeSystem() {
         createDemoData();
         localStorage.setItem(SYSTEM_CONFIG.STORAGE_PREFIX + 'initialized', 'true');
     }
+    
+    // تحميل البيانات بعد التهيئة
+    loadSystemData();
 }
 
 // إنشاء بيانات تجريبية
@@ -316,15 +318,79 @@ function setupEventListeners() {
 
 // تحميل بيانات النظام
 function loadSystemData() {
-    systemData.users = getFromStorage('users') || [];
-    systemData.teachers = getFromStorage('teachers') || [];
-    systemData.students = getFromStorage('students') || [];
-    systemData.circles = getFromStorage('circles') || [];
+    // تحميل البيانات من التخزين المحلي
+    const loadedUsers = getFromStorage('users');
+    const loadedTeachers = getFromStorage('teachers');
+    const loadedStudents = getFromStorage('students');
+    const loadedCircles = getFromStorage('circles');
+    
+    // إذا كانت البيانات موجودة، استخدمها، وإلا احتفظ بالبيانات التجريبية
+    if (loadedUsers && loadedUsers.length > 0) {
+        systemData.users = loadedUsers;
+    }
+    if (loadedTeachers && loadedTeachers.length > 0) {
+        systemData.teachers = loadedTeachers;
+    }
+    if (loadedStudents && loadedStudents.length > 0) {
+        systemData.students = loadedStudents;
+    }
+    if (loadedCircles && loadedCircles.length > 0) {
+        systemData.circles = loadedCircles;
+    }
+    
+    // تحميل باقي البيانات
     systemData.attendance = getFromStorage('attendance') || [];
     systemData.progress = getFromStorage('progress') || [];
     systemData.activities = getFromStorage('activities') || [];
     systemData.surahs = getFromStorage('surahs') || [];
     systemData.studentNotes = getFromStorage('studentNotes') || [];
+    
+    // التأكد من وجود المستخدم الإداري
+    if (!systemData.users.find(u => u.username === 'admin')) {
+        systemData.users.push({
+            id: 1,
+            username: 'admin',
+            password: 'admin123',
+            type: 'admin',
+            name: 'مدير النظام',
+            isActive: true
+        });
+        saveToStorage('users', systemData.users);
+    }
+    
+    // التحقق من سلامة البيانات
+    validateSystemData();
+}
+
+// التحقق من سلامة البيانات
+function validateSystemData() {
+    // إذا كانت البيانات فارغة أو معطلة، أعد إنشاءها
+    if (!systemData.teachers || systemData.teachers.length === 0 ||
+        !systemData.students || systemData.students.length === 0 ||
+        !systemData.circles || systemData.circles.length === 0) {
+        
+        console.log('البيانات معطلة، جاري إعادة إنشاءها...');
+        resetSystemData();
+    }
+}
+
+// إعادة تعيين بيانات النظام
+function resetSystemData() {
+    // مسح البيانات المعطلة
+    localStorage.removeItem(SYSTEM_CONFIG.STORAGE_PREFIX + 'initialized');
+    localStorage.removeItem(SYSTEM_CONFIG.STORAGE_PREFIX + 'teachers');
+    localStorage.removeItem(SYSTEM_CONFIG.STORAGE_PREFIX + 'students');
+    localStorage.removeItem(SYSTEM_CONFIG.STORAGE_PREFIX + 'circles');
+    localStorage.removeItem(SYSTEM_CONFIG.STORAGE_PREFIX + 'users');
+    
+    // إعادة إنشاء البيانات
+    createDemoData();
+    localStorage.setItem(SYSTEM_CONFIG.STORAGE_PREFIX + 'initialized', 'true');
+    
+    // إعادة تحميل البيانات
+    loadSystemData();
+    
+    console.log('تم إعادة تعيين البيانات بنجاح');
 }
 
 // حفظ البيانات في التخزين المحلي
@@ -338,7 +404,7 @@ function getFromStorage(key) {
     return data ? JSON.parse(data) : null;
 }
 
-// معالج تسجيل الدخول
+// معالج تسجيل الدخول المحسن
 function handleLogin(e) {
     e.preventDefault();
     
@@ -346,17 +412,94 @@ function handleLogin(e) {
     const password = document.getElementById('password').value;
     const userType = document.getElementById('userType').value;
     
-    const user = systemData.users.find(u => 
+    // التحقق من نوع المستخدم
+    if (userType === 'student_public') {
+        // دخول الطلاب العام - بدون كلمة مرور
+        showStudentPublicInterface();
+        return;
+    }
+    
+    // التحقق من المستخدمين المسجلين
+    let user = systemData.users.find(u => 
         u.username === username && 
         u.password === password && 
-        u.type === userType
+        u.type === userType &&
+        (u.isActive !== false) // التحقق من أن الحساب نشط
     );
     
+    // إذا لم يوجد المستخدم، تحقق من البيانات التجريبية القديمة
+    if (!user && userType === 'teacher') {
+        // البحث في المعلمين مباشرة للتوافق مع النظام القديم
+        const teacher = systemData.teachers.find(t => 
+            (t.username === username || `teacher${t.id}` === username || username === 'teacher1' || username === 'teacher2') && 
+            (t.password === password || password === 'teacher123')
+        );
+        
+        if (teacher) {
+            // إنشاء حساب مستخدم للمعلم تلقائياً
+            user = {
+                id: Date.now(),
+                username: username,
+                password: password,
+                type: 'teacher',
+                name: teacher.name,
+                teacherId: teacher.id,
+                isActive: true,
+                createdAt: new Date().toISOString()
+            };
+            
+            // إضافة المستخدم إلى النظام
+            systemData.users.push(user);
+            saveToStorage('users', systemData.users);
+        } else {
+            // إذا لم يوجد المعلم، جرب البحث بطريقة أخرى
+            let teacherId = null;
+            if (username === 'teacher1') teacherId = 1;
+            else if (username === 'teacher2') teacherId = 2;
+            else if (username.startsWith('teacher')) {
+                teacherId = parseInt(username.replace('teacher', ''));
+            }
+            
+            if (teacherId && password === 'teacher123') {
+                const foundTeacher = systemData.teachers.find(t => t.id === teacherId);
+                if (foundTeacher) {
+                    user = {
+                        id: Date.now(),
+                        username: username,
+                        password: password,
+                        type: 'teacher',
+                        name: foundTeacher.name,
+                        teacherId: foundTeacher.id,
+                        isActive: true,
+                        createdAt: new Date().toISOString()
+                    };
+                    
+                    systemData.users.push(user);
+                    saveToStorage('users', systemData.users);
+                }
+            }
+        }
+    }
+    
     if (user) {
-        currentUser = user;
+        currentUser = {
+            ...user,
+            loginTime: new Date()
+        };
+        
         document.getElementById('loginScreen').style.display = 'none';
         document.getElementById('mainApp').style.display = 'grid';
-        document.getElementById('currentUser').textContent = `مرحباً، ${user.name}`;
+        
+        // رسالة ترحيب مخصصة
+        let welcomeMessage = `مرحباً، ${user.name || user.username}`;
+        if (userType === 'teacher' && user.teacherId) {
+            const teacher = systemData.teachers.find(t => t.id === user.teacherId);
+            if (teacher) {
+                welcomeMessage = `مرحباً، ${teacher.name}`;
+            }
+        }
+        
+        document.getElementById('currentUser').textContent = welcomeMessage;
         
         // تطبيق صلاحيات المستخدم
         document.body.className = user.type;
@@ -370,8 +513,87 @@ function handleLogin(e) {
         updateStudentsTable();
         updateCirclesFilter();
         
+        showNotification(welcomeMessage, 'success');
+        
     } else {
-        alert('بيانات تسجيل الدخول غير صحيحة');
+        showNotification('بيانات الدخول غير صحيحة أو الحساب معطل', 'error');
+    }
+}
+
+// عرض واجهة الطلاب العامة
+function showStudentPublicInterface() {
+    // إخفاء شاشة تسجيل الدخول
+    document.getElementById('loginScreen').style.display = 'none';
+    
+    // إنشاء واجهة الطلاب العامة
+    const publicInterface = document.createElement('div');
+    publicInterface.id = 'studentPublicInterface';
+    publicInterface.className = 'student-public-interface';
+    publicInterface.innerHTML = `
+        <div class="public-header">
+            <div class="organization-logo"></div>
+            <h1 class="organization-name"></h1>
+            <button class="btn btn-secondary logout-btn" onclick="logoutFromPublic()">
+                <i class="fas fa-sign-out-alt"></i> الخروج
+            </button>
+        </div>
+        <div class="public-content">
+            ${showStudentPublicPage()}
+        </div>
+    `;
+    
+    document.body.appendChild(publicInterface);
+    
+    // تحديث عرض الجمعية
+    updateOrganizationDisplay();
+    
+    currentUser = {
+        type: 'student_public',
+        loginTime: new Date()
+    };
+    
+    showNotification('مرحباً بك في صفحة الطلاب', 'success');
+}
+
+// الخروج من الواجهة العامة
+function logoutFromPublic() {
+    const publicInterface = document.getElementById('studentPublicInterface');
+    if (publicInterface) {
+        publicInterface.remove();
+    }
+    
+    document.getElementById('loginScreen').style.display = 'flex';
+    currentUser = null;
+}
+
+// تبديل حقول كلمة المرور حسب نوع المستخدم
+function togglePasswordFields() {
+    const userType = document.getElementById('userType').value;
+    const usernameGroup = document.querySelector('#username').parentElement;
+    const passwordGroup = document.querySelector('#password').parentElement;
+    
+    if (userType === 'student_public') {
+        // إخفاء حقول اسم المستخدم وكلمة المرور للدخول العام
+        usernameGroup.style.display = 'none';
+        passwordGroup.style.display = 'none';
+        
+        // إزالة الإلزامية
+        document.getElementById('username').required = false;
+        document.getElementById('password').required = false;
+        
+        // تغيير نص الزر
+        document.querySelector('.login-btn').innerHTML = '<i class="fas fa-users"></i> دخول صفحة الطلاب';
+    } else {
+        // إظهار حقول اسم المستخدم وكلمة المرور
+        usernameGroup.style.display = 'block';
+        passwordGroup.style.display = 'block';
+        
+        // إضافة الإلزامية
+        document.getElementById('username').required = true;
+        document.getElementById('password').required = true;
+        
+        // إعادة نص الزر الأصلي
+        document.querySelector('.login-btn').innerHTML = '<i class="fas fa-sign-in-alt"></i> تسجيل الدخول';
     }
 }
 
@@ -383,6 +605,51 @@ function handleLogout() {
     document.getElementById('loginForm').reset();
     document.body.className = '';
 }
+
+// تبديل القائمة الجانبية للجوال
+function toggleSidebar() {
+    const sidebar = document.querySelector('.sidebar');
+    sidebar.classList.toggle('active');
+}
+
+// إغلاق القائمة الجانبية عند النقر خارجها (للجوال)
+document.addEventListener('click', function(e) {
+    const sidebar = document.querySelector('.sidebar');
+    const menuBtn = document.querySelector('.mobile-menu-btn');
+    
+    if (window.innerWidth <= 768 && 
+        sidebar && 
+        sidebar.classList.contains('active') && 
+        !sidebar.contains(e.target) && 
+        menuBtn && !menuBtn.contains(e.target)) {
+        sidebar.classList.remove('active');
+    }
+});
+
+// إظهار/إخفاء زر القائمة حسب حجم الشاشة
+function updateMobileMenu() {
+    const menuBtn = document.querySelector('.mobile-menu-btn');
+    if (menuBtn) {
+        if (window.innerWidth <= 768) {
+            menuBtn.style.display = 'block';
+        } else {
+            menuBtn.style.display = 'none';
+            // إزالة الفئة النشطة من القائمة الجانبية
+            const sidebar = document.querySelector('.sidebar');
+            if (sidebar) {
+                sidebar.classList.remove('active');
+            }
+        }
+    }
+}
+
+// تحديث القائمة عند تغيير حجم الشاشة
+window.addEventListener('resize', updateMobileMenu);
+
+// تحديث القائمة عند تحميل الصفحة
+setTimeout(() => {
+    updateMobileMenu();
+}, 500);
 
 // معالج التنقل
 function handleNavigation(e) {
@@ -452,9 +719,52 @@ function updateDashboard() {
     // حساب نسبة الحضور اليوم (مؤقت)
     document.getElementById('todayAttendance').textContent = '85%';
     
+    // إضافة أزرار الإدارة للمشرفين
+    addAdminButtons();
+    
     // رسم الرسوم البيانية
     drawMemorizeChart();
     drawAttendanceChart();
+}
+
+// إضافة أزرار الإدارة
+function addAdminButtons() {
+    if (currentUser && currentUser.type === 'admin') {
+        const dashboardContent = document.getElementById('dashboardContent');
+        
+        // التحقق من وجود قسم الإدارة
+        let adminSection = document.getElementById('adminControlsSection');
+        if (!adminSection) {
+            adminSection = document.createElement('div');
+            adminSection.id = 'adminControlsSection';
+            adminSection.className = 'admin-controls-section';
+            adminSection.innerHTML = `
+                <h3><i class="fas fa-cogs"></i> إعدادات الإدارة</h3>
+                <div class="admin-buttons">
+                    <button class="btn btn-primary" onclick="showOrganizationSettingsModal()">
+                        <i class="fas fa-building"></i> إعدادات الجمعية
+                    </button>
+                    <button class="btn btn-success" onclick="showTeacherAccountsList()">
+                        <i class="fas fa-user-cog"></i> حسابات المعلمين
+                    </button>
+                    <button class="btn btn-info" onclick="createTeacherAccount()">
+                        <i class="fas fa-user-plus"></i> إنشاء حساب معلم
+                    </button>
+                    <button class="btn btn-warning" onclick="generateAIReport()">
+                        <i class="fas fa-robot"></i> تقرير ذكي
+                    </button>
+                </div>
+            `;
+            
+            // إدراج القسم بعد الإحصائيات
+            const statsSection = dashboardContent.querySelector('.stats-grid');
+            if (statsSection) {
+                statsSection.parentNode.insertBefore(adminSection, statsSection.nextSibling);
+            } else {
+                dashboardContent.appendChild(adminSection);
+            }
+        }
+    }
 }
 
 // رسم رسم بياني للحفظ
@@ -697,9 +1007,22 @@ function addTeacher() {
 }
 
 // عرض النافذة المنبثقة
-function showModal(content) {
-    document.getElementById('modalContent').innerHTML = content;
-    document.getElementById('modalOverlay').classList.add('active');
+function showModal(content, size = 'normal') {
+    const modalContent = document.getElementById('modalContent');
+    const modalOverlay = document.getElementById('modalOverlay');
+    
+    modalContent.innerHTML = content;
+    
+    // تطبيق الحجم
+    if (size === 'large') {
+        modalContent.style.maxWidth = '800px';
+        modalContent.style.width = '95%';
+    } else {
+        modalContent.style.maxWidth = '500px';
+        modalContent.style.width = '90%';
+    }
+    
+    modalOverlay.classList.add('active');
 }
 
 // إغلاق النافذة المنبثقة
@@ -1407,7 +1730,7 @@ function editStudent(studentId) {
             </div>
             <div class="form-group">
                 <label>العمر</label>
-                <input type="number" id="editStudentAge" value="${student.age}" min="5" max="25" required>
+                <input type="number" id="editStudentAge" value="${student.age || 12}" min="5" max="25" required>
             </div>
             <div class="form-group">
                 <label>الجنس</label>
@@ -1422,7 +1745,7 @@ function editStudent(studentId) {
             </div>
             <div class="form-group">
                 <label>رقم هاتف ولي الأمر</label>
-                <input type="tel" id="editParentPhone" value="${student.parentPhone}" required>
+                <input type="tel" id="editParentPhone" value="${student.parentPhone || ''}" required>
             </div>
             <div class="form-group">
                 <label>الحلقة</label>
@@ -1446,7 +1769,7 @@ function editStudent(studentId) {
             </div>
             <div class="form-group">
                 <label>عدد الأجزاء المراجعة</label>
-                <input type="number" id="editStudentReviewed" value="${student.reviewed}" min="0" max="30">
+                <input type="number" id="editStudentReviewed" value="${student.reviewed || 0}" min="0" max="30">
             </div>
             <div class="form-group">
                 <label>التقدير</label>
@@ -1474,10 +1797,16 @@ function editStudent(studentId) {
     
     showModal(modalContent);
     
-    document.getElementById('editStudentForm').addEventListener('submit', function(e) {
-        e.preventDefault();
-        updateStudent(studentId);
-    });
+    // إضافة مستمع الحدث بعد تأخير قصير للتأكد من تحميل العناصر
+    setTimeout(() => {
+        const form = document.getElementById('editStudentForm');
+        if (form) {
+            form.addEventListener('submit', function(e) {
+                e.preventDefault();
+                updateStudent(studentId);
+            });
+        }
+    }, 100);
 }
 
 // تحديث بيانات الطالب

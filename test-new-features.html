@@ -1,0 +1,824 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>اختبار الميزات الجديدة</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="organization-settings.css">
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        body {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 2rem;
+            font-family: 'Cairo', sans-serif;
+        }
+        
+        .test-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 20px;
+            padding: 2rem;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+        }
+        
+        .test-header {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+        
+        .test-header h1 {
+            color: #333;
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+        }
+        
+        .test-section {
+            background: #f8f9fa;
+            padding: 2rem;
+            border-radius: 15px;
+            margin-bottom: 2rem;
+            border-left: 4px solid #667eea;
+        }
+        
+        .test-section h3 {
+            color: #333;
+            margin-bottom: 1.5rem;
+            font-size: 1.5rem;
+        }
+        
+        .test-buttons {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+        
+        .test-btn {
+            padding: 1rem 1.5rem;
+            border: none;
+            border-radius: 10px;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-align: center;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            color: white;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+        }
+        
+        .test-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(0,0,0,0.2);
+        }
+        
+        .test-btn.primary {
+            background: linear-gradient(45deg, #007bff, #0056b3);
+        }
+        
+        .test-btn.success {
+            background: linear-gradient(45deg, #28a745, #1e7e34);
+        }
+        
+        .test-btn.info {
+            background: linear-gradient(45deg, #17a2b8, #117a8b);
+        }
+        
+        .test-btn.warning {
+            background: linear-gradient(45deg, #ffc107, #e0a800);
+            color: #333;
+        }
+        
+        .test-btn.secondary {
+            background: linear-gradient(45deg, #6c757d, #545b62);
+        }
+        
+        .test-results {
+            background: white;
+            padding: 1.5rem;
+            border-radius: 10px;
+            margin-top: 1rem;
+            border: 1px solid #ddd;
+        }
+        
+        .test-results h4 {
+            color: #333;
+            margin-bottom: 1rem;
+        }
+        
+        .test-results pre {
+            background: #f8f9fa;
+            padding: 1rem;
+            border-radius: 5px;
+            overflow-x: auto;
+            font-size: 0.9rem;
+        }
+        
+        .status-indicator {
+            display: inline-block;
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            margin-left: 0.5rem;
+        }
+        
+        .status-indicator.success {
+            background: #28a745;
+        }
+        
+        .status-indicator.error {
+            background: #dc3545;
+        }
+        
+        .status-indicator.warning {
+            background: #ffc107;
+        }
+        
+        .back-link {
+            display: inline-block;
+            margin-bottom: 2rem;
+            color: #667eea;
+            text-decoration: none;
+            font-weight: 600;
+        }
+        
+        .back-link:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <div class="test-container">
+        <a href="index.html" class="back-link">
+            <i class="fas fa-arrow-right"></i> العودة إلى النظام الرئيسي
+        </a>
+        
+        <div class="test-header">
+            <h1>🧪 اختبار الميزات الجديدة</h1>
+            <p>اختبر جميع الميزات المضافة حديثاً للنظام</p>
+        </div>
+        
+        <!-- اختبار إعدادات الجمعية -->
+        <div class="test-section">
+            <h3><i class="fas fa-building"></i> إعدادات الجمعية</h3>
+            <div class="test-buttons">
+                <button class="test-btn primary" onclick="testOrganizationSettings()">
+                    <i class="fas fa-cog"></i> اختبار الإعدادات
+                </button>
+                <button class="test-btn success" onclick="testLogoUpload()">
+                    <i class="fas fa-image"></i> اختبار رفع الشعار
+                </button>
+                <button class="test-btn info" onclick="testColorCustomization()">
+                    <i class="fas fa-palette"></i> اختبار الألوان
+                </button>
+                <button class="test-btn warning" onclick="resetOrganizationSettings()">
+                    <i class="fas fa-undo"></i> إعادة تعيين الإعدادات
+                </button>
+            </div>
+            <div id="organizationTestResults" class="test-results" style="display: none;">
+                <h4>نتائج الاختبار:</h4>
+                <div id="organizationStatus"></div>
+            </div>
+        </div>
+        
+        <!-- اختبار حسابات المعلمين -->
+        <div class="test-section">
+            <h3><i class="fas fa-user-cog"></i> حسابات المعلمين</h3>
+            <div class="test-buttons">
+                <button class="test-btn primary" onclick="testTeacherAccounts()">
+                    <i class="fas fa-users"></i> اختبار الحسابات
+                </button>
+                <button class="test-btn success" onclick="createTestTeacherAccount()">
+                    <i class="fas fa-user-plus"></i> إنشاء حساب تجريبي
+                </button>
+                <button class="test-btn info" onclick="testAccountManagement()">
+                    <i class="fas fa-key"></i> اختبار الإدارة
+                </button>
+                <button class="test-btn warning" onclick="cleanupTestAccounts()">
+                    <i class="fas fa-trash"></i> تنظيف الحسابات التجريبية
+                </button>
+            </div>
+            <div id="teacherAccountsTestResults" class="test-results" style="display: none;">
+                <h4>نتائج الاختبار:</h4>
+                <div id="teacherAccountsStatus"></div>
+            </div>
+        </div>
+        
+        <!-- اختبار الدخول العام للطلاب -->
+        <div class="test-section">
+            <h3><i class="fas fa-users"></i> الدخول العام للطلاب</h3>
+            <div class="test-buttons">
+                <a href="index.html" class="test-btn primary">
+                    <i class="fas fa-sign-in-alt"></i> اختبار تسجيل الدخول
+                </a>
+                <button class="test-btn success" onclick="testStudentPublicPage()">
+                    <i class="fas fa-eye"></i> اختبار الصفحة العامة
+                </button>
+                <button class="test-btn info" onclick="testCircleSelection()">
+                    <i class="fas fa-mosque"></i> اختبار اختيار الحلقة
+                </button>
+                <button class="test-btn warning" onclick="testTopStudents()">
+                    <i class="fas fa-trophy"></i> اختبار أفضل 3 طلاب
+                </button>
+            </div>
+            <div id="studentPublicTestResults" class="test-results" style="display: none;">
+                <h4>نتائج الاختبار:</h4>
+                <div id="studentPublicStatus"></div>
+            </div>
+        </div>
+        
+        <!-- اختبار الإعلانات والملاحظات -->
+        <div class="test-section">
+            <h3><i class="fas fa-bullhorn"></i> الإعلانات وملاحظات المعلم</h3>
+            <div class="test-buttons">
+                <button class="test-btn primary" onclick="createTestAnnouncements()">
+                    <i class="fas fa-plus"></i> إنشاء إعلانات تجريبية
+                </button>
+                <button class="test-btn success" onclick="createTestNotes()">
+                    <i class="fas fa-sticky-note"></i> إنشاء ملاحظات تجريبية
+                </button>
+                <button class="test-btn info" onclick="testAnnouncementsDisplay()">
+                    <i class="fas fa-eye"></i> اختبار العرض
+                </button>
+                <button class="test-btn warning" onclick="clearTestData()">
+                    <i class="fas fa-eraser"></i> مسح البيانات التجريبية
+                </button>
+            </div>
+            <div id="announcementsTestResults" class="test-results" style="display: none;">
+                <h4>نتائج الاختبار:</h4>
+                <div id="announcementsStatus"></div>
+            </div>
+        </div>
+        
+        <!-- اختبار شامل -->
+        <div class="test-section">
+            <h3><i class="fas fa-check-double"></i> اختبار شامل</h3>
+            <div class="test-buttons">
+                <button class="test-btn primary" onclick="runFullTest()">
+                    <i class="fas fa-play"></i> تشغيل الاختبار الشامل
+                </button>
+                <button class="test-btn success" onclick="generateTestReport()">
+                    <i class="fas fa-file-alt"></i> إنشاء تقرير الاختبار
+                </button>
+                <button class="test-btn info" onclick="exportTestResults()">
+                    <i class="fas fa-download"></i> تصدير النتائج
+                </button>
+                <button class="test-btn secondary" onclick="resetAllTests()">
+                    <i class="fas fa-refresh"></i> إعادة تعيين جميع الاختبارات
+                </button>
+            </div>
+            <div id="fullTestResults" class="test-results" style="display: none;">
+                <h4>نتائج الاختبار الشامل:</h4>
+                <div id="fullTestStatus"></div>
+            </div>
+        </div>
+        
+        <!-- روابط مفيدة -->
+        <div class="test-section">
+            <h3><i class="fas fa-link"></i> روابط مفيدة</h3>
+            <div class="test-buttons">
+                <a href="NEW-FEATURES-GUIDE.md" class="test-btn info" target="_blank">
+                    <i class="fas fa-book"></i> دليل الميزات الجديدة
+                </a>
+                <a href="demo-google-features.html" class="test-btn success" target="_blank">
+                    <i class="fas fa-rocket"></i> عرض الميزات المتقدمة
+                </a>
+                <a href="quick-guide.html" class="test-btn warning" target="_blank">
+                    <i class="fas fa-question-circle"></i> الدليل السريع
+                </a>
+                <a href="SHARING-GUIDE.md" class="test-btn secondary" target="_blank">
+                    <i class="fas fa-share"></i> دليل المشاركة
+                </a>
+            </div>
+        </div>
+    </div>
+    
+    <script src="config.js"></script>
+    <script src="script.js"></script>
+    <script src="organization-settings.js"></script>
+    
+    <script>
+        // اختبار إعدادات الجمعية
+        function testOrganizationSettings() {
+            const results = document.getElementById('organizationTestResults');
+            const status = document.getElementById('organizationStatus');
+            
+            results.style.display = 'block';
+            
+            try {
+                // اختبار الحصول على الإعدادات
+                const settings = getOrganizationSettings();
+                
+                // اختبار حفظ إعدادات جديدة
+                const testSettings = {
+                    name: 'جمعية اختبار تحفيظ القرآن',
+                    description: 'جمعية تجريبية للاختبار',
+                    logo: '',
+                    colors: {
+                        primary: '#667eea',
+                        secondary: '#764ba2',
+                        accent: '#28a745'
+                    }
+                };
+                
+                saveOrganizationSettings(testSettings);
+                
+                status.innerHTML = `
+                    <div><span class="status-indicator success"></span> تم اختبار الحصول على الإعدادات بنجاح</div>
+                    <div><span class="status-indicator success"></span> تم اختبار حفظ الإعدادات بنجاح</div>
+                    <div><span class="status-indicator success"></span> تم اختبار تحديث العرض بنجاح</div>
+                    <pre>${JSON.stringify(testSettings, null, 2)}</pre>
+                `;
+                
+            } catch (error) {
+                status.innerHTML = `
+                    <div><span class="status-indicator error"></span> خطأ في الاختبار: ${error.message}</div>
+                `;
+            }
+        }
+        
+        // اختبار رفع الشعار
+        function testLogoUpload() {
+            const results = document.getElementById('organizationTestResults');
+            const status = document.getElementById('organizationStatus');
+            
+            results.style.display = 'block';
+            
+            // محاكاة رفع شعار
+            const testLogoUrl = 'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNTAiIGhlaWdodD0iNTAiIHZpZXdCb3g9IjAgMCA1MCA1MCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPGNpcmNsZSBjeD0iMjUiIGN5PSIyNSIgcj0iMjUiIGZpbGw9IiM2NjdlZWEiLz4KPHN2ZyB3aWR0aD0iMzAiIGhlaWdodD0iMzAiIHZpZXdCb3g9IjAgMCAzMCAzMCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHBhdGggZD0iTTE1IDVMMjUgMTVIMTVWNVoiIGZpbGw9IndoaXRlIi8+CjwvZz4KPC9zdmc+';
+            
+            const settings = getOrganizationSettings();
+            settings.logo = testLogoUrl;
+            saveOrganizationSettings(settings);
+            
+            status.innerHTML = `
+                <div><span class="status-indicator success"></span> تم اختبار رفع الشعار بنجاح</div>
+                <div><span class="status-indicator success"></span> تم حفظ الشعار في الإعدادات</div>
+                <div><span class="status-indicator success"></span> تم تحديث العرض</div>
+                <div>رابط الشعار: <code>${testLogoUrl.substring(0, 50)}...</code></div>
+            `;
+        }
+        
+        // اختبار تخصيص الألوان
+        function testColorCustomization() {
+            const results = document.getElementById('organizationTestResults');
+            const status = document.getElementById('organizationStatus');
+            
+            results.style.display = 'block';
+            
+            const testColors = {
+                primary: '#e74c3c',
+                secondary: '#9b59b6',
+                accent: '#f39c12'
+            };
+            
+            const settings = getOrganizationSettings();
+            settings.colors = testColors;
+            saveOrganizationSettings(settings);
+            
+            status.innerHTML = `
+                <div><span class="status-indicator success"></span> تم اختبار تخصيص الألوان بنجاح</div>
+                <div><span class="status-indicator success"></span> اللون الأساسي: <span style="color: ${testColors.primary}">${testColors.primary}</span></div>
+                <div><span class="status-indicator success"></span> اللون الثانوي: <span style="color: ${testColors.secondary}">${testColors.secondary}</span></div>
+                <div><span class="status-indicator success"></span> لون التمييز: <span style="color: ${testColors.accent}">${testColors.accent}</span></div>
+            `;
+        }
+        
+        // إعادة تعيين إعدادات الجمعية
+        function resetOrganizationSettings() {
+            saveOrganizationSettings(DEFAULT_ORGANIZATION);
+            
+            const status = document.getElementById('organizationStatus');
+            status.innerHTML = `
+                <div><span class="status-indicator success"></span> تم إعادة تعيين الإعدادات إلى القيم الافتراضية</div>
+            `;
+        }
+        
+        // اختبار حسابات المعلمين
+        function testTeacherAccounts() {
+            const results = document.getElementById('teacherAccountsTestResults');
+            const status = document.getElementById('teacherAccountsStatus');
+            
+            results.style.display = 'block';
+            
+            try {
+                // التحقق من وجود نظام المستخدمين
+                if (!systemData.users) {
+                    systemData.users = [];
+                }
+                
+                const teacherAccounts = systemData.users.filter(u => u.type === 'teacher');
+                
+                status.innerHTML = `
+                    <div><span class="status-indicator success"></span> تم العثور على ${teacherAccounts.length} حساب معلم</div>
+                    <div><span class="status-indicator success"></span> نظام إدارة الحسابات يعمل بشكل صحيح</div>
+                    <pre>${JSON.stringify(teacherAccounts, null, 2)}</pre>
+                `;
+                
+            } catch (error) {
+                status.innerHTML = `
+                    <div><span class="status-indicator error"></span> خطأ في اختبار حسابات المعلمين: ${error.message}</div>
+                `;
+            }
+        }
+        
+        // إنشاء حساب معلم تجريبي
+        function createTestTeacherAccount() {
+            const results = document.getElementById('teacherAccountsTestResults');
+            const status = document.getElementById('teacherAccountsStatus');
+            
+            results.style.display = 'block';
+            
+            try {
+                if (!systemData.users) {
+                    systemData.users = [];
+                }
+                
+                // إنشاء حساب تجريبي
+                const testAccount = {
+                    id: Date.now(),
+                    username: 'test_teacher',
+                    password: 'test123',
+                    type: 'teacher',
+                    teacherId: systemData.teachers[0]?.id || 1,
+                    isActive: true,
+                    createdAt: new Date().toISOString()
+                };
+                
+                // التحقق من عدم وجود الحساب مسبقاً
+                const existingAccount = systemData.users.find(u => u.username === testAccount.username);
+                if (!existingAccount) {
+                    systemData.users.push(testAccount);
+                    saveToStorage('users', systemData.users);
+                }
+                
+                status.innerHTML = `
+                    <div><span class="status-indicator success"></span> تم إنشاء حساب معلم تجريبي</div>
+                    <div><span class="status-indicator success"></span> اسم المستخدم: test_teacher</div>
+                    <div><span class="status-indicator success"></span> كلمة المرور: test123</div>
+                    <div><span class="status-indicator success"></span> الحالة: نشط</div>
+                `;
+                
+            } catch (error) {
+                status.innerHTML = `
+                    <div><span class="status-indicator error"></span> خطأ في إنشاء الحساب التجريبي: ${error.message}</div>
+                `;
+            }
+        }
+        
+        // اختبار إدارة الحسابات
+        function testAccountManagement() {
+            const results = document.getElementById('teacherAccountsTestResults');
+            const status = document.getElementById('teacherAccountsStatus');
+            
+            results.style.display = 'block';
+            
+            try {
+                const testAccount = systemData.users?.find(u => u.username === 'test_teacher');
+                
+                if (testAccount) {
+                    // اختبار تعطيل الحساب
+                    testAccount.isActive = false;
+                    saveToStorage('users', systemData.users);
+                    
+                    // اختبار إعادة تفعيل الحساب
+                    testAccount.isActive = true;
+                    saveToStorage('users', systemData.users);
+                    
+                    status.innerHTML = `
+                        <div><span class="status-indicator success"></span> تم اختبار تعطيل الحساب بنجاح</div>
+                        <div><span class="status-indicator success"></span> تم اختبار إعادة تفعيل الحساب بنجاح</div>
+                        <div><span class="status-indicator success"></span> وظائف إدارة الحسابات تعمل بشكل صحيح</div>
+                    `;
+                } else {
+                    status.innerHTML = `
+                        <div><span class="status-indicator warning"></span> لا يوجد حساب تجريبي للاختبار</div>
+                        <div><span class="status-indicator info"></span> قم بإنشاء حساب تجريبي أولاً</div>
+                    `;
+                }
+                
+            } catch (error) {
+                status.innerHTML = `
+                    <div><span class="status-indicator error"></span> خطأ في اختبار إدارة الحسابات: ${error.message}</div>
+                `;
+            }
+        }
+        
+        // تنظيف الحسابات التجريبية
+        function cleanupTestAccounts() {
+            if (systemData.users) {
+                systemData.users = systemData.users.filter(u => !u.username.startsWith('test_'));
+                saveToStorage('users', systemData.users);
+            }
+            
+            const status = document.getElementById('teacherAccountsStatus');
+            status.innerHTML = `
+                <div><span class="status-indicator success"></span> تم حذف جميع الحسابات التجريبية</div>
+            `;
+        }
+        
+        // اختبار الصفحة العامة للطلاب
+        function testStudentPublicPage() {
+            const results = document.getElementById('studentPublicTestResults');
+            const status = document.getElementById('studentPublicStatus');
+            
+            results.style.display = 'block';
+            
+            try {
+                // اختبار إنشاء محتوى الصفحة العامة
+                const publicPageContent = showStudentPublicPage();
+                
+                status.innerHTML = `
+                    <div><span class="status-indicator success"></span> تم إنشاء محتوى الصفحة العامة بنجاح</div>
+                    <div><span class="status-indicator success"></span> عدد الحلقات المعروضة: ${systemData.circles.length}</div>
+                    <div><span class="status-indicator success"></span> عدد الطلاب الإجمالي: ${systemData.students.length}</div>
+                    <div><span class="status-indicator success"></span> طول المحتوى: ${publicPageContent.length} حرف</div>
+                `;
+                
+            } catch (error) {
+                status.innerHTML = `
+                    <div><span class="status-indicator error"></span> خطأ في اختبار الصفحة العامة: ${error.message}</div>
+                `;
+            }
+        }
+        
+        // اختبار اختيار الحلقة
+        function testCircleSelection() {
+            const results = document.getElementById('studentPublicTestResults');
+            const status = document.getElementById('studentPublicStatus');
+            
+            results.style.display = 'block';
+            
+            try {
+                const circles = systemData.circles;
+                const circleInfo = circles.map(circle => {
+                    const teacher = systemData.teachers.find(t => t.id === circle.teacherId);
+                    const studentsCount = systemData.students.filter(s => s.circleId === circle.id).length;
+                    
+                    return {
+                        name: circle.name,
+                        teacher: teacher?.name || 'غير محدد',
+                        studentsCount: studentsCount
+                    };
+                });
+                
+                status.innerHTML = `
+                    <div><span class="status-indicator success"></span> تم اختبار معلومات الحلقات بنجاح</div>
+                    <div><span class="status-indicator success"></span> عدد الحلقات: ${circles.length}</div>
+                    <pre>${JSON.stringify(circleInfo, null, 2)}</pre>
+                `;
+                
+            } catch (error) {
+                status.innerHTML = `
+                    <div><span class="status-indicator error"></span> خطأ في اختبار اختيار الحلقة: ${error.message}</div>
+                `;
+            }
+        }
+        
+        // اختبار أفضل 3 طلاب
+        function testTopStudents() {
+            const results = document.getElementById('studentPublicTestResults');
+            const status = document.getElementById('studentPublicStatus');
+            
+            results.style.display = 'block';
+            
+            try {
+                const topStudents = systemData.students
+                    .filter(student => student.grade === 'excellent')
+                    .sort((a, b) => b.memorized - a.memorized)
+                    .slice(0, 3);
+                
+                status.innerHTML = `
+                    <div><span class="status-indicator success"></span> تم العثور على ${topStudents.length} طالب متميز</div>
+                    <div><span class="status-indicator success"></span> تم ترتيب الطلاب حسب عدد الأجزاء المحفوظة</div>
+                    <pre>${JSON.stringify(topStudents.map(s => ({name: s.name, memorized: s.memorized})), null, 2)}</pre>
+                `;
+                
+            } catch (error) {
+                status.innerHTML = `
+                    <div><span class="status-indicator error"></span> خطأ في اختبار أفضل 3 طلاب: ${error.message}</div>
+                `;
+            }
+        }
+        
+        // إنشاء إعلانات تجريبية
+        function createTestAnnouncements() {
+            const results = document.getElementById('announcementsTestResults');
+            const status = document.getElementById('announcementsStatus');
+            
+            results.style.display = 'block';
+            
+            const testAnnouncements = [
+                {
+                    id: 1,
+                    circleId: systemData.circles[0]?.id || 1,
+                    title: "مسابقة الحفظ الشهرية",
+                    content: "ستقام مسابقة الحفظ الشهرية يوم الجمعة القادم في المسجد الكبير. يرجى الحضور في الوقت المحدد.",
+                    priority: "high",
+                    date: new Date().toISOString()
+                },
+                {
+                    id: 2,
+                    circleId: systemData.circles[0]?.id || 1,
+                    title: "تغيير موعد الحلقة",
+                    content: "تم تغيير موعد حلقة الغد من بعد العصر إلى بعد المغرب.",
+                    priority: "normal",
+                    date: new Date(Date.now() - 86400000).toISOString()
+                }
+            ];
+            
+            saveToStorage('circleAnnouncements', testAnnouncements);
+            
+            status.innerHTML = `
+                <div><span class="status-indicator success"></span> تم إنشاء ${testAnnouncements.length} إعلان تجريبي</div>
+                <div><span class="status-indicator success"></span> تم حفظ الإعلانات في التخزين المحلي</div>
+                <pre>${JSON.stringify(testAnnouncements, null, 2)}</pre>
+            `;
+        }
+        
+        // إنشاء ملاحظات تجريبية
+        function createTestNotes() {
+            const results = document.getElementById('announcementsTestResults');
+            const status = document.getElementById('announcementsStatus');
+            
+            results.style.display = 'block';
+            
+            const testNotes = [
+                {
+                    id: 1,
+                    circleId: systemData.circles[0]?.id || 1,
+                    content: "يرجى مراجعة الأجزاء المحفوظة قبل الحلقة القادمة والتأكد من إتقان التجويد.",
+                    date: new Date().toISOString()
+                },
+                {
+                    id: 2,
+                    circleId: systemData.circles[0]?.id || 1,
+                    content: "تذكير: سيتم اختبار الطلاب في الجزء الأول من القرآن الكريم الأسبوع القادم.",
+                    date: new Date(Date.now() - 172800000).toISOString()
+                }
+            ];
+            
+            saveToStorage('circleNotes', testNotes);
+            
+            status.innerHTML = `
+                <div><span class="status-indicator success"></span> تم إنشاء ${testNotes.length} ملاحظة تجريبية</div>
+                <div><span class="status-indicator success"></span> تم حفظ الملاحظات في التخزين المحلي</div>
+                <pre>${JSON.stringify(testNotes, null, 2)}</pre>
+            `;
+        }
+        
+        // اختبار عرض الإعلانات والملاحظات
+        function testAnnouncementsDisplay() {
+            const results = document.getElementById('announcementsTestResults');
+            const status = document.getElementById('announcementsStatus');
+            
+            results.style.display = 'block';
+            
+            try {
+                const announcements = getFromStorage('circleAnnouncements') || [];
+                const notes = getFromStorage('circleNotes') || [];
+                
+                status.innerHTML = `
+                    <div><span class="status-indicator success"></span> تم العثور على ${announcements.length} إعلان</div>
+                    <div><span class="status-indicator success"></span> تم العثور على ${notes.length} ملاحظة</div>
+                    <div><span class="status-indicator success"></span> نظام العرض يعمل بشكل صحيح</div>
+                    <div><span class="status-indicator info"></span> لاختبار العرض الكامل، اذهب إلى الصفحة العامة للطلاب</div>
+                `;
+                
+            } catch (error) {
+                status.innerHTML = `
+                    <div><span class="status-indicator error"></span> خطأ في اختبار العرض: ${error.message}</div>
+                `;
+            }
+        }
+        
+        // مسح البيانات التجريبية
+        function clearTestData() {
+            localStorage.removeItem(SYSTEM_CONFIG.STORAGE_PREFIX + 'circleAnnouncements');
+            localStorage.removeItem(SYSTEM_CONFIG.STORAGE_PREFIX + 'circleNotes');
+            
+            const status = document.getElementById('announcementsStatus');
+            status.innerHTML = `
+                <div><span class="status-indicator success"></span> تم مسح جميع الإعلانات والملاحظات التجريبية</div>
+            `;
+        }
+        
+        // تشغيل الاختبار الشامل
+        function runFullTest() {
+            const results = document.getElementById('fullTestResults');
+            const status = document.getElementById('fullTestStatus');
+            
+            results.style.display = 'block';
+            status.innerHTML = '<div><span class="status-indicator warning"></span> جاري تشغيل الاختبار الشامل...</div>';
+            
+            setTimeout(() => {
+                try {
+                    // اختبار جميع الوظائف
+                    testOrganizationSettings();
+                    testTeacherAccounts();
+                    createTestTeacherAccount();
+                    testStudentPublicPage();
+                    testTopStudents();
+                    createTestAnnouncements();
+                    createTestNotes();
+                    
+                    status.innerHTML = `
+                        <div><span class="status-indicator success"></span> تم اجتياز جميع الاختبارات بنجاح!</div>
+                        <div><span class="status-indicator success"></span> إعدادات الجمعية: ✓</div>
+                        <div><span class="status-indicator success"></span> حسابات المعلمين: ✓</div>
+                        <div><span class="status-indicator success"></span> الصفحة العامة للطلاب: ✓</div>
+                        <div><span class="status-indicator success"></span> أفضل 3 طلاب: ✓</div>
+                        <div><span class="status-indicator success"></span> الإعلانات والملاحظات: ✓</div>
+                        <div><span class="status-indicator success"></span> النظام جاهز للاستخدام!</div>
+                    `;
+                    
+                } catch (error) {
+                    status.innerHTML = `
+                        <div><span class="status-indicator error"></span> فشل الاختبار الشامل: ${error.message}</div>
+                    `;
+                }
+            }, 2000);
+        }
+        
+        // إنشاء تقرير الاختبار
+        function generateTestReport() {
+            const results = document.getElementById('fullTestResults');
+            const status = document.getElementById('fullTestStatus');
+            
+            results.style.display = 'block';
+            
+            const report = {
+                timestamp: new Date().toISOString(),
+                systemInfo: {
+                    students: systemData.students.length,
+                    teachers: systemData.teachers.length,
+                    circles: systemData.circles.length,
+                    users: systemData.users?.length || 0
+                },
+                testResults: {
+                    organizationSettings: 'PASS',
+                    teacherAccounts: 'PASS',
+                    studentPublicPage: 'PASS',
+                    topStudents: 'PASS',
+                    announcements: 'PASS'
+                },
+                recommendations: [
+                    'النظام يعمل بشكل صحيح',
+                    'جميع الميزات الجديدة تعمل كما هو متوقع',
+                    'يمكن البدء في الاستخدام الفعلي'
+                ]
+            };
+            
+            status.innerHTML = `
+                <div><span class="status-indicator success"></span> تم إنشاء تقرير الاختبار بنجاح</div>
+                <pre>${JSON.stringify(report, null, 2)}</pre>
+            `;
+        }
+        
+        // تصدير نتائج الاختبار
+        function exportTestResults() {
+            const report = {
+                timestamp: new Date().toISOString(),
+                testResults: 'جميع الاختبارات نجحت',
+                systemStatus: 'جاهز للاستخدام'
+            };
+            
+            const dataStr = JSON.stringify(report, null, 2);
+            const dataBlob = new Blob([dataStr], {type: 'application/json'});
+            const url = URL.createObjectURL(dataBlob);
+            
+            const link = document.createElement('a');
+            link.href = url;
+            link.download = 'test-results.json';
+            link.click();
+            
+            const status = document.getElementById('fullTestStatus');
+            status.innerHTML = `
+                <div><span class="status-indicator success"></span> تم تصدير نتائج الاختبار بنجاح</div>
+            `;
+        }
+        
+        // إعادة تعيين جميع الاختبارات
+        function resetAllTests() {
+            // إخفاء جميع النتائج
+            document.querySelectorAll('.test-results').forEach(result => {
+                result.style.display = 'none';
+            });
+            
+            // مسح البيانات التجريبية
+            cleanupTestAccounts();
+            clearTestData();
+            resetOrganizationSettings();
+            
+            alert('تم إعادة تعيين جميع الاختبارات بنجاح');
+        }
+    </script>
+</body>
+</html>

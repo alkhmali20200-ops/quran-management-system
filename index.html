@@ -5,6 +5,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>جمعية تحفيظ القرآن الكريم</title>
     <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="google-integration.css">
+    <link rel="stylesheet" href="organization-settings.css">
+    <link rel="stylesheet" href="student-tracking.css">
+    <link rel="stylesheet" href="ai-dashboard.css">
+    <link rel="stylesheet" href="enhanced-surahs.css">
     <link href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=Cairo:wght@300;400;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 </head>
@@ -31,11 +36,12 @@
                 
                 <div class="form-group">
                     <label for="userType">نوع المستخدم</label>
-                    <select id="userType" required>
+                    <select id="userType" required onchange="togglePasswordFields()">
                         <option value="">اختر نوع المستخدم</option>
                         <option value="admin">إدارة</option>
                         <option value="teacher">معلم</option>
                         <option value="student">طالب</option>
+                        <option value="student_public">دخول عام للطلاب</option>
                     </select>
                 </div>
                 
@@ -56,6 +62,24 @@
                         <i class="fas fa-book"></i> دليل الاستخدام السريع
                     </a>
                 </div>
+                
+                <div style="margin-top: 1rem; padding-top: 1rem; border-top: 1px solid #ddd; text-align: center;">
+                    <p style="font-size: 0.8rem; color: #666; margin-bottom: 0.5rem;">
+                        <i class="fas fa-exclamation-triangle" style="color: #e74c3c;"></i>
+                        إذا كانت البيانات لا تعمل:
+                    </p>
+                    <a href="emergency-reset.html" style="color: #e74c3c; text-decoration: underline; font-weight: 600;">
+                        <i class="fas fa-tools"></i> إعادة تعيين البيانات
+                    </a>
+                    |
+                    <a href="diagnose.html" style="color: #17a2b8; text-decoration: underline; font-weight: 600;">
+                        <i class="fas fa-stethoscope"></i> تشخيص النظام
+                    </a>
+                    |
+                    <a href="test-fixes.html" style="color: #28a745; text-decoration: underline; font-weight: 600;">
+                        <i class="fas fa-check-circle"></i> اختبار الإصلاحات
+                    </a>
+                </div>
             </div>
         </div>
     </div>
@@ -65,6 +89,9 @@
         <!-- شريط التنقل العلوي -->
         <nav class="navbar">
             <div class="nav-brand">
+                <button class="mobile-menu-btn" onclick="toggleSidebar()" style="display: none;">
+                    <i class="fas fa-bars"></i>
+                </button>
                 <i class="fas fa-mosque"></i>
                 <span>جمعية تحفيظ القرآن الكريم</span>
             </div>
@@ -338,8 +365,16 @@
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://apis.google.com/js/api.js"></script>
     <script src="config.js"></script>
     <script src="script.js"></script>
     <script src="enhancements.js"></script>
+    <script src="google-integration.js"></script>
+    <script src="organization-settings.js"></script>
+    <script src="student-tracking.js"></script>
+    <script src="circles-analytics.js"></script>
+    <script src="social-campaigns.js"></script>
+    <script src="ai-dashboard.js"></script>
+    <script src="enhanced-surahs.js"></script>
 </body>
 </html>

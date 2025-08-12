@@ -1,0 +1,434 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>تجربة ميزات Google Integration</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="google-integration.css">
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        body {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 2rem;
+            font-family: 'Cairo', sans-serif;
+        }
+        
+        .demo-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 20px;
+            padding: 2rem;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+        }
+        
+        .demo-header {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+        
+        .demo-header h1 {
+            color: #333;
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+        }
+        
+        .demo-header p {
+            color: #666;
+            font-size: 1.2rem;
+        }
+        
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-bottom: 3rem;
+        }
+        
+        .feature-card {
+            background: #f8f9fa;
+            padding: 2rem;
+            border-radius: 15px;
+            text-align: center;
+            transition: transform 0.3s ease;
+            border: 2px solid transparent;
+        }
+        
+        .feature-card:hover {
+            transform: translateY(-5px);
+            border-color: #667eea;
+        }
+        
+        .feature-icon {
+            font-size: 3rem;
+            color: #667eea;
+            margin-bottom: 1rem;
+        }
+        
+        .feature-title {
+            font-size: 1.3rem;
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 1rem;
+        }
+        
+        .feature-description {
+            color: #666;
+            margin-bottom: 1.5rem;
+            line-height: 1.6;
+        }
+        
+        .demo-section {
+            background: #f8f9fa;
+            padding: 2rem;
+            border-radius: 15px;
+            margin-bottom: 2rem;
+        }
+        
+        .demo-section h3 {
+            color: #333;
+            margin-bottom: 1.5rem;
+            font-size: 1.5rem;
+        }
+        
+        .sample-data {
+            background: white;
+            padding: 1.5rem;
+            border-radius: 10px;
+            margin: 1rem 0;
+            border-left: 4px solid #667eea;
+        }
+        
+        .sample-report {
+            background: white;
+            padding: 2rem;
+            border-radius: 10px;
+            margin: 1rem 0;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        
+        .social-post-preview {
+            background: #e3f2fd;
+            padding: 1.5rem;
+            border-radius: 10px;
+            margin: 1rem 0;
+            border: 1px solid #2196f3;
+        }
+        
+        .fundraising-preview {
+            background: #fff3e0;
+            padding: 1.5rem;
+            border-radius: 10px;
+            margin: 1rem 0;
+            border: 1px solid #ff9800;
+        }
+        
+        .back-link {
+            display: inline-block;
+            margin-bottom: 2rem;
+            color: #667eea;
+            text-decoration: none;
+            font-weight: 600;
+        }
+        
+        .back-link:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <div class="demo-container">
+        <a href="index.html" class="back-link">
+            <i class="fas fa-arrow-right"></i> العودة إلى النظام الرئيسي
+        </a>
+        
+        <div class="demo-header">
+            <h1>🚀 ميزات التكامل مع Google الجديدة</h1>
+            <p>تجربة تفاعلية للميزات المتقدمة في نظام إدارة جمعية تحفيظ القرآن الكريم</p>
+        </div>
+        
+        <!-- الميزات الرئيسية -->
+        <div class="features-grid">
+            <div class="feature-card">
+                <div class="feature-icon">
+                    <i class="fab fa-google"></i>
+                </div>
+                <div class="feature-title">تصدير إلى Google Sheets</div>
+                <div class="feature-description">
+                    تصدير جميع بيانات الطلاب والحضور والإحصائيات إلى جداول Google Sheets للطباعة والمشاركة السهلة
+                </div>
+                <button class="btn btn-google" onclick="demoGoogleSheets()">
+                    <i class="fas fa-table"></i> تجربة التصدير
+                </button>
+            </div>
+            
+            <div class="feature-card">
+                <div class="feature-icon">
+                    <i class="fas fa-robot"></i>
+                </div>
+                <div class="feature-title">تقارير الذكاء الاصطناعي</div>
+                <div class="feature-description">
+                    تحليل ذكي لأداء الحلقات والطلاب مع توصيات مخصصة وإحصائيات متقدمة
+                </div>
+                <button class="btn btn-ai" onclick="demoAIReport()">
+                    <i class="fas fa-chart-line"></i> إنشاء تقرير ذكي
+                </button>
+            </div>
+            
+            <div class="feature-card">
+                <div class="feature-icon">
+                    <i class="fas fa-share-alt"></i>
+                </div>
+                <div class="feature-title">محتوى الشبكات الاجتماعية</div>
+                <div class="feature-description">
+                    إنشاء محتوى جاهز للنشر في الشبكات الاجتماعية لعرض إنجازات الجمعية
+                </div>
+                <button class="btn btn-social" onclick="demoSocialMedia()">
+                    <i class="fab fa-whatsapp"></i> إنشاء منشورات
+                </button>
+            </div>
+            
+            <div class="feature-card">
+                <div class="feature-icon">
+                    <i class="fas fa-heart"></i>
+                </div>
+                <div class="feature-title">حملات التبرعات</div>
+                <div class="feature-description">
+                    إنشاء حملات تبرعات احترافية بناءً على احتياجات الجمعية الفعلية
+                </div>
+                <button class="btn btn-warning" onclick="demoFundraising()">
+                    <i class="fas fa-donate"></i> إنشاء حملة
+                </button>
+            </div>
+            
+            <div class="feature-card">
+                <div class="feature-icon">
+                    <i class="fab fa-google-drive"></i>
+                </div>
+                <div class="feature-title">حفظ في Google Docs</div>
+                <div class="feature-description">
+                    حفظ التقارير والوثائق في Google Docs للوصول السهل والتعديل المشترك
+                </div>
+                <button class="btn btn-info" onclick="demoGoogleDocs()">
+                    <i class="fas fa-file-alt"></i> حفظ التقارير
+                </button>
+            </div>
+            
+            <div class="feature-card">
+                <div class="feature-icon">
+                    <i class="fas fa-print"></i>
+                </div>
+                <div class="feature-title">طباعة احترافية</div>
+                <div class="feature-description">
+                    تصدير جميع البيانات بتنسيق جاهز للطباعة مع تصميم احترافي
+                </div>
+                <button class="btn btn-secondary" onclick="demoPrinting()">
+                    <i class="fas fa-file-pdf"></i> تجهيز للطباعة
+                </button>
+            </div>
+        </div>
+        
+        <!-- عرض البيانات التجريبية -->
+        <div class="demo-section">
+            <h3>📊 بيانات تجريبية للعرض</h3>
+            <div class="sample-data">
+                <h4>إحصائيات الجمعية:</h4>
+                <ul>
+                    <li><strong>إجمالي الطلاب:</strong> 8 طلاب وطالبات</li>
+                    <li><strong>إجمالي المعلمين:</strong> 2 معلم ومعلمة</li>
+                    <li><strong>إجمالي الحلقات:</strong> 3 حلقات</li>
+                    <li><strong>الأجزاء المحفوظة:</strong> 33 جزء</li>
+                    <li><strong>متوسط الحضور:</strong> 85%</li>
+                </ul>
+            </div>
+        </div>
+        
+        <!-- عرض التقرير التجريبي -->
+        <div id="demoReportSection" class="demo-section" style="display: none;">
+            <h3>🤖 تقرير الذكاء الاصطناعي التجريبي</h3>
+            <div class="sample-report">
+                <h4>تقرير أداء جمعية تحفيظ القرآن الكريم - ديسمبر 2024</h4>
+                
+                <div class="summary-grid">
+                    <div class="summary-item">
+                        <div class="summary-number">8</div>
+                        <div class="summary-label">إجمالي الطلاب</div>
+                    </div>
+                    <div class="summary-item">
+                        <div class="summary-number">2</div>
+                        <div class="summary-label">المعلمون</div>
+                    </div>
+                    <div class="summary-item">
+                        <div class="summary-number">3</div>
+                        <div class="summary-label">الحلقات</div>
+                    </div>
+                    <div class="summary-item">
+                        <div class="summary-number">33</div>
+                        <div class="summary-label">الأجزاء المحفوظة</div>
+                    </div>
+                </div>
+                
+                <h5>💪 نقاط القوة:</h5>
+                <ul>
+                    <li>نسبة عالية من الطلاب المتميزين (37.5%)</li>
+                    <li>متوسط ممتاز للحفظ (4.1 أجزاء لكل طالب)</li>
+                    <li>توازن جيد بين الطلاب والطالبات</li>
+                </ul>
+                
+                <h5>🎯 التوصيات:</h5>
+                <ul>
+                    <li>تنظيم مسابقات قرآنية شهرية لتحفيز الطلاب</li>
+                    <li>إقامة دورات تدريبية للمعلمين لتطوير مهاراتهم</li>
+                    <li>التوسع في عدد الحلقات لاستيعاب المزيد من الطلاب</li>
+                </ul>
+            </div>
+        </div>
+        
+        <!-- عرض المحتوى الاجتماعي -->
+        <div id="demoSocialSection" class="demo-section" style="display: none;">
+            <h3>📱 محتوى الشبكات الاجتماعية</h3>
+            
+            <div class="social-post-preview">
+                <h4>🏆 إنجازات جمعيتنا هذا الشهر</h4>
+                <p>
+                    🌟 8 طلاب وطالبات يحفظون كتاب الله<br>
+                    📚 33 جزء تم حفظها هذا الشهر<br>
+                    👨‍🏫 2 معلم ومعلمة مختصين<br>
+                    🕌 3 حلقات تحفيظ في مساجد مختلفة<br>
+                    📈 85% نسبة الحضور<br><br>
+                    #تحفيظ_القرآن #جمعية_خيرية #القرآن_الكريم
+                </p>
+                <button class="btn btn-success btn-sm">
+                    <i class="fab fa-whatsapp"></i> مشاركة في واتساب
+                </button>
+            </div>
+            
+            <div class="social-post-preview">
+                <h4>⭐ تهنئة للطلاب المتميزين</h4>
+                <p>
+                    نبارك لطلابنا المتميزين في الحفظ:<br><br>
+                    1. خالد عبدالرحمن الدوسري - 10 أجزاء<br>
+                    2. فاطمة سعد الحربي - 6 أجزاء<br>
+                    3. محمد أحمد الغامدي - 2 أجزاء<br><br>
+                    بارك الله فيهم وزادهم من فضله 🤲<br><br>
+                    #طلاب_متميزون #حفظة_القرآن #تحفيظ
+                </p>
+                <button class="btn btn-info btn-sm">
+                    <i class="fab fa-twitter"></i> مشاركة في تويتر
+                </button>
+            </div>
+        </div>
+        
+        <!-- عرض حملة التبرعات -->
+        <div id="demoFundraisingSection" class="demo-section" style="display: none;">
+            <h3>💝 حملة دعم جمعية تحفيظ القرآن الكريم</h3>
+            
+            <div class="fundraising-preview">
+                <h4>🎯 الهدف: جمع 100,000 ريال لتطوير البرامج التعليمية</h4>
+                
+                <h5>الاحتياجات:</h5>
+                <ul>
+                    <li><strong>مصاحف وكتب تعليمية:</strong> 15,000 ريال</li>
+                    <li><strong>مكافآت المعلمين:</strong> 30,000 ريال</li>
+                    <li><strong>تطوير التقنيات التعليمية:</strong> 25,000 ريال</li>
+                    <li><strong>برامج الأنشطة والمسابقات:</strong> 20,000 ريال</li>
+                    <li><strong>توسيع الحلقات:</strong> 10,000 ريال</li>
+                </ul>
+                
+                <h5>مستويات التبرع:</h5>
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem; margin: 1rem 0;">
+                    <div style="background: white; padding: 1rem; border-radius: 8px;">
+                        <strong>50 ريال</strong><br>
+                        <small>دعم طالب واحد لشهر كامل</small>
+                    </div>
+                    <div style="background: white; padding: 1rem; border-radius: 8px;">
+                        <strong>100 ريال</strong><br>
+                        <small>توفير مصحف ومواد تعليمية</small>
+                    </div>
+                    <div style="background: white; padding: 1rem; border-radius: 8px;">
+                        <strong>500 ريال</strong><br>
+                        <small>دعم معلم لشهر كامل</small>
+                    </div>
+                    <div style="background: white; padding: 1rem; border-radius: 8px;">
+                        <strong>1000 ريال</strong><br>
+                        <small>رعاية حلقة كاملة لشهر</small>
+                    </div>
+                </div>
+                
+                <button class="btn btn-warning">
+                    <i class="fas fa-heart"></i> تبرع الآن
+                </button>
+                <button class="btn btn-info">
+                    <i class="fas fa-share"></i> مشاركة الحملة
+                </button>
+            </div>
+        </div>
+        
+        <!-- روابط مفيدة -->
+        <div class="demo-section">
+            <h3>🔗 روابط مفيدة</h3>
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 1rem;">
+                <a href="google-setup-guide.md" class="btn btn-outline-primary" target="_blank">
+                    <i class="fas fa-cog"></i> دليل إعداد Google APIs
+                </a>
+                <a href="index.html" class="btn btn-outline-success">
+                    <i class="fas fa-home"></i> النظام الرئيسي
+                </a>
+                <a href="quick-guide.html" class="btn btn-outline-info" target="_blank">
+                    <i class="fas fa-book"></i> الدليل السريع
+                </a>
+                <a href="README.md" class="btn btn-outline-warning" target="_blank">
+                    <i class="fas fa-info-circle"></i> معلومات النظام
+                </a>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        function demoGoogleSheets() {
+            alert('🎉 ميزة تصدير Google Sheets!\n\n' +
+                  '✅ تصدير بيانات الطلاب\n' +
+                  '✅ تصدير سجلات الحضور\n' +
+                  '✅ تصدير إحصائيات الحلقات\n' +
+                  '✅ تنسيق جاهز للطباعة\n\n' +
+                  'لتفعيل هذه الميزة، راجع دليل إعداد Google APIs');
+        }
+        
+        function demoAIReport() {
+            document.getElementById('demoReportSection').style.display = 'block';
+            document.getElementById('demoReportSection').scrollIntoView({ behavior: 'smooth' });
+        }
+        
+        function demoSocialMedia() {
+            document.getElementById('demoSocialSection').style.display = 'block';
+            document.getElementById('demoSocialSection').scrollIntoView({ behavior: 'smooth' });
+        }
+        
+        function demoFundraising() {
+            document.getElementById('demoFundraisingSection').style.display = 'block';
+            document.getElementById('demoFundraisingSection').scrollIntoView({ behavior: 'smooth' });
+        }
+        
+        function demoGoogleDocs() {
+            alert('📄 ميزة Google Docs!\n\n' +
+                  '✅ حفظ التقارير في Google Docs\n' +
+                  '✅ تعديل مشترك للوثائق\n' +
+                  '✅ وصول سهل من أي مكان\n' +
+                  '✅ نسخ احتياطية تلقائية\n\n' +
+                  'سيتم فتح التقرير في Google Docs تلقائياً');
+        }
+        
+        function demoPrinting() {
+            alert('🖨️ ميزة الطباعة الاحترافية!\n\n' +
+                  '✅ تصدير PDF للتقارير\n' +
+                  '✅ تنسيق احترافي للطباعة\n' +
+                  '✅ جداول منظمة للبيانات\n' +
+                  '✅ شعار الجمعية والتوقيعات\n\n' +
+                  'جاري تجهيز الملفات للطباعة...');
+        }
+    </script>
+</body>
+</html>

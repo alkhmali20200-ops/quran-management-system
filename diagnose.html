@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>تشخيص النظام</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background: #f5f5f5;
+            margin: 0;
+            padding: 20px;
+            direction: rtl;
+        }
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        .status {
+            padding: 10px;
+            margin: 10px 0;
+            border-radius: 5px;
+            border-left: 4px solid;
+        }
+        .status.success {
+            background: #d4edda;
+            border-color: #28a745;
+            color: #155724;
+        }
+        .status.error {
+            background: #f8d7da;
+            border-color: #dc3545;
+            color: #721c24;
+        }
+        .status.warning {
+            background: #fff3cd;
+            border-color: #ffc107;
+            color: #856404;
+        }
+        .btn {
+            background: #007bff;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            margin: 5px;
+        }
+        .btn:hover {
+            background: #0056b3;
+        }
+        .btn.danger {
+            background: #dc3545;
+        }
+        .btn.danger:hover {
+            background: #c82333;
+        }
+        pre {
+            background: #f8f9fa;
+            padding: 15px;
+            border-radius: 5px;
+            overflow-x: auto;
+            font-size: 12px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🔍 تشخيص النظام</h1>
+        
+        <div id="diagnosis"></div>
+        
+        <div style="margin-top: 20px;">
+            <button class="btn" onclick="runDiagnosis()">🔄 إعادة التشخيص</button>
+            <button class="btn danger" onclick="clearAllData()">🗑️ مسح جميع البيانات</button>
+            <a href="index.html" class="btn" style="text-decoration: none;">🏠 العودة للنظام</a>
+            <a href="emergency-reset.html" class="btn" style="text-decoration: none;">🚨 إعادة التعيين</a>
+        </div>
+    </div>
+
+    <script>
+        const SYSTEM_CONFIG = {
+            STORAGE_PREFIX: 'quran_app_'
+        };
+
+        function getFromStorage(key) {
+            const data = localStorage.getItem(SYSTEM_CONFIG.STORAGE_PREFIX + key);
+            return data ? JSON.parse(data) : null;
+        }
+
+        function runDiagnosis() {
+            const diagnosis = document.getElementById('diagnosis');
+            let html = '<h2>📊 نتائج التشخيص</h2>';
+
+            // فحص البيانات الأساسية
+            const keys = ['users', 'teachers', 'students', 'circles', 'initialized'];
+            const data = {};
+            
+            keys.forEach(key => {
+                data[key] = getFromStorage(key);
+            });
+
+            // فحص حالة التهيئة
+            if (data.initialized) {
+                html += '<div class="status success">✅ النظام مُهيأ بشكل صحيح</div>';
+            } else {
+                html += '<div class="status error">❌ النظام غير مُهيأ</div>';
+            }
+
+            // فحص المستخدمين
+            if (data.users && data.users.length > 0) {
+                html += `<div class="status success">✅ المستخدمون: ${data.users.length} مستخدم</div>`;
+                
+                const adminUser = data.users.find(u => u.username === 'admin');
+                if (adminUser) {
+                    html += '<div class="status success">✅ حساب الإدارة موجود</div>';
+                } else {
+                    html += '<div class="status error">❌ حساب الإدارة مفقود</div>';
+                }
+            } else {
+                html += '<div class="status error">❌ لا توجد مستخدمين</div>';
+            }
+
+            // فحص المعلمين
+            if (data.teachers && data.teachers.length > 0) {
+                html += `<div class="status success">✅ المعلمون: ${data.teachers.length} معلم</div>`;
+            } else {
+                html += '<div class="status error">❌ لا يوجد معلمون</div>';
+            }
+
+            // فحص الطلاب
+            if (data.students && data.students.length > 0) {
+                html += `<div class="status success">✅ الطلاب: ${data.students.length} طالب</div>`;
+            } else {
+                html += '<div class="status error">❌ لا يوجد طلاب</div>';
+            }
+
+            // فحص الحلقات
+            if (data.circles && data.circles.length > 0) {
+                html += `<div class="status success">✅ الحلقات: ${data.circles.length} حلقة</div>`;
+            } else {
+                html += '<div class="status error">❌ لا توجد حلقات</div>';
+            }
+
+            // فحص التخزين المحلي
+            try {
+                localStorage.setItem('test', 'test');
+                localStorage.removeItem('test');
+                html += '<div class="status success">✅ التخزين المحلي يعمل بشكل صحيح</div>';
+            } catch (e) {
+                html += '<div class="status error">❌ مشكلة في التخزين المحلي</div>';
+            }
+
+            // عرض البيانات الخام
+            html += '<h3>📋 البيانات الخام</h3>';
+            html += '<pre>' + JSON.stringify(data, null, 2) + '</pre>';
+
+            // فحص جميع مفاتيح التخزين
+            html += '<h3>🔑 جميع مفاتيح التخزين</h3>';
+            const allKeys = [];
+            for (let i = 0; i < localStorage.length; i++) {
+                const key = localStorage.key(i);
+                if (key.startsWith(SYSTEM_CONFIG.STORAGE_PREFIX)) {
+                    allKeys.push(key);
+                }
+            }
+            html += '<pre>' + JSON.stringify(allKeys, null, 2) + '</pre>';
+
+            diagnosis.innerHTML = html;
+        }
+
+        function clearAllData() {
+            if (confirm('هل أنت متأكد من حذف جميع البيانات؟')) {
+                const keys = [];
+                for (let i = 0; i < localStorage.length; i++) {
+                    const key = localStorage.key(i);
+                    if (key.startsWith(SYSTEM_CONFIG.STORAGE_PREFIX)) {
+                        keys.push(key);
+                    }
+                }
+                
+                keys.forEach(key => localStorage.removeItem(key));
+                
+                alert('تم حذف جميع البيانات');
+                runDiagnosis();
+            }
+        }
+
+        // تشغيل التشخيص عند تحميل الصفحة
+        document.addEventListener('DOMContentLoaded', runDiagnosis);
+    </script>
+</body>
+</html>

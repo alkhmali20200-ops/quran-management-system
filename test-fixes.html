@@ -1,0 +1,486 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>اختبار الإصلاحات</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        body {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            font-family: 'Cairo', sans-serif;
+            padding: 2rem;
+        }
+        
+        .test-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 20px;
+            padding: 2rem;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+        }
+        
+        .test-header {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+        
+        .test-header h1 {
+            color: #333;
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+        }
+        
+        .test-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+        
+        .test-card {
+            background: #f8f9fa;
+            border-radius: 15px;
+            padding: 2rem;
+            border: 2px solid #e9ecef;
+            transition: all 0.3s ease;
+        }
+        
+        .test-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        }
+        
+        .test-card.success {
+            border-color: #28a745;
+            background: linear-gradient(135deg, #d4edda 0%, #c3e6cb 100%);
+        }
+        
+        .test-card.error {
+            border-color: #dc3545;
+            background: linear-gradient(135deg, #f8d7da 0%, #f5c6cb 100%);
+        }
+        
+        .test-card.warning {
+            border-color: #ffc107;
+            background: linear-gradient(135deg, #fff3cd 0%, #ffeaa7 100%);
+        }
+        
+        .test-title {
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        .test-description {
+            margin-bottom: 1.5rem;
+            color: #666;
+            line-height: 1.6;
+        }
+        
+        .test-steps {
+            list-style: none;
+            padding: 0;
+            margin-bottom: 1.5rem;
+        }
+        
+        .test-steps li {
+            padding: 0.5rem 0;
+            border-bottom: 1px solid rgba(0,0,0,0.1);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        .test-steps li:last-child {
+            border-bottom: none;
+        }
+        
+        .test-buttons {
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+        }
+        
+        .btn {
+            padding: 0.75rem 1.5rem;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 0.9rem;
+        }
+        
+        .btn-primary {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+        
+        .btn-success {
+            background: #28a745;
+            color: white;
+        }
+        
+        .btn-warning {
+            background: #ffc107;
+            color: #212529;
+        }
+        
+        .btn-info {
+            background: #17a2b8;
+            color: white;
+        }
+        
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        }
+        
+        .status-indicator {
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            display: inline-block;
+            margin-left: 0.5rem;
+        }
+        
+        .status-success {
+            background: #28a745;
+        }
+        
+        .status-error {
+            background: #dc3545;
+        }
+        
+        .status-warning {
+            background: #ffc107;
+        }
+        
+        .mobile-test {
+            background: linear-gradient(135deg, #17a2b8 0%, #138496 100%);
+            color: white;
+            margin-top: 2rem;
+            padding: 2rem;
+            border-radius: 15px;
+            text-align: center;
+        }
+        
+        .mobile-test h3 {
+            margin-bottom: 1rem;
+        }
+        
+        .mobile-instructions {
+            background: rgba(255,255,255,0.1);
+            padding: 1.5rem;
+            border-radius: 10px;
+            margin: 1rem 0;
+        }
+        
+        @media (max-width: 768px) {
+            body {
+                padding: 1rem;
+            }
+            
+            .test-container {
+                padding: 1rem;
+            }
+            
+            .test-header h1 {
+                font-size: 2rem;
+            }
+            
+            .test-grid {
+                grid-template-columns: 1fr;
+                gap: 1rem;
+            }
+            
+            .test-card {
+                padding: 1.5rem;
+            }
+            
+            .test-buttons {
+                flex-direction: column;
+            }
+            
+            .btn {
+                width: 100%;
+                justify-content: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="test-container">
+        <div class="test-header">
+            <h1><i class="fas fa-tools"></i> اختبار الإصلاحات</h1>
+            <p>تحقق من أن جميع المشاكل تم حلها بنجاح</p>
+        </div>
+        
+        <div class="test-grid">
+            <!-- اختبار دخول المعلم -->
+            <div class="test-card" id="teacherLoginTest">
+                <div class="test-title">
+                    <i class="fas fa-chalkboard-teacher"></i>
+                    اختبار دخول المعلم
+                    <span class="status-indicator status-warning" id="teacherStatus"></span>
+                </div>
+                <div class="test-description">
+                    تحقق من أن المعلمين يمكنهم تسجيل الدخول بنجاح
+                </div>
+                <ul class="test-steps">
+                    <li><i class="fas fa-arrow-left"></i> اذهب للصفحة الرئيسية</li>
+                    <li><i class="fas fa-user"></i> اختر "معلم" من القائمة</li>
+                    <li><i class="fas fa-key"></i> أدخل: teacher1 / teacher123</li>
+                    <li><i class="fas fa-sign-in-alt"></i> اضغط تسجيل الدخول</li>
+                </ul>
+                <div class="test-buttons">
+                    <a href="index.html" class="btn btn-primary" target="_blank">
+                        <i class="fas fa-external-link-alt"></i> اختبار الآن
+                    </a>
+                    <button class="btn btn-success" onclick="markTestSuccess('teacherLoginTest', 'teacherStatus')">
+                        <i class="fas fa-check"></i> يعمل
+                    </button>
+                    <button class="btn btn-warning" onclick="markTestError('teacherLoginTest', 'teacherStatus')">
+                        <i class="fas fa-times"></i> لا يعمل
+                    </button>
+                </div>
+            </div>
+            
+            <!-- اختبار إعدادات الجمعية -->
+            <div class="test-card" id="organizationSettingsTest">
+                <div class="test-title">
+                    <i class="fas fa-cog"></i>
+                    اختبار إعدادات الجمعية
+                    <span class="status-indicator status-warning" id="orgStatus"></span>
+                </div>
+                <div class="test-description">
+                    تحقق من إمكانية تغيير اسم الجمعية وإضافة الشعار
+                </div>
+                <ul class="test-steps">
+                    <li><i class="fas fa-user-shield"></i> سجل دخول كإدارة (admin/admin123)</li>
+                    <li><i class="fas fa-tachometer-alt"></i> اذهب للوحة التحكم</li>
+                    <li><i class="fas fa-cog"></i> اضغط "إعدادات الجمعية"</li>
+                    <li><i class="fas fa-edit"></i> جرب تغيير الاسم والشعار</li>
+                </ul>
+                <div class="test-buttons">
+                    <a href="index.html" class="btn btn-primary" target="_blank">
+                        <i class="fas fa-external-link-alt"></i> اختبار الآن
+                    </a>
+                    <button class="btn btn-success" onclick="markTestSuccess('organizationSettingsTest', 'orgStatus')">
+                        <i class="fas fa-check"></i> يعمل
+                    </button>
+                    <button class="btn btn-warning" onclick="markTestError('organizationSettingsTest', 'orgStatus')">
+                        <i class="fas fa-times"></i> لا يعمل
+                    </button>
+                </div>
+            </div>
+            
+            <!-- اختبار التصميم المتجاوب -->
+            <div class="test-card" id="responsiveTest">
+                <div class="test-title">
+                    <i class="fas fa-mobile-alt"></i>
+                    اختبار التصميم المتجاوب
+                    <span class="status-indicator status-warning" id="responsiveStatus"></span>
+                </div>
+                <div class="test-description">
+                    تحقق من أن الموقع يعمل بشكل جيد على الجوال
+                </div>
+                <ul class="test-steps">
+                    <li><i class="fas fa-compress-alt"></i> صغر نافذة المتصفح أو استخدم الجوال</li>
+                    <li><i class="fas fa-bars"></i> يجب أن ترى زر القائمة (☰)</li>
+                    <li><i class="fas fa-mouse-pointer"></i> اضغط الزر لفتح/إغلاق القائمة</li>
+                    <li><i class="fas fa-window-restore"></i> جرب فتح النوافذ المنبثقة</li>
+                </ul>
+                <div class="test-buttons">
+                    <button class="btn btn-info" onclick="testResponsive()">
+                        <i class="fas fa-test"></i> اختبار تلقائي
+                    </button>
+                    <button class="btn btn-success" onclick="markTestSuccess('responsiveTest', 'responsiveStatus')">
+                        <i class="fas fa-check"></i> يعمل
+                    </button>
+                    <button class="btn btn-warning" onclick="markTestError('responsiveTest', 'responsiveStatus')">
+                        <i class="fas fa-times"></i> لا يعمل
+                    </button>
+                </div>
+            </div>
+        </div>
+        
+        <!-- اختبار الجوال -->
+        <div class="mobile-test">
+            <h3><i class="fas fa-mobile-alt"></i> اختبار خاص للجوال</h3>
+            <div class="mobile-instructions">
+                <p><strong>إذا كنت تستخدم الجوال الآن:</strong></p>
+                <p>✅ هل ترى هذه الصفحة بشكل واضح ومنظم؟</p>
+                <p>✅ هل الأزرار سهلة الضغط؟</p>
+                <p>✅ هل النصوص واضحة وقابلة للقراءة؟</p>
+                <p>إذا كانت الإجابة نعم، فالتصميم المتجاوب يعمل بشكل مثالي!</p>
+            </div>
+            <button class="btn btn-success" onclick="markMobileSuccess()" style="background: white; color: #17a2b8;">
+                <i class="fas fa-thumbs-up"></i> التصميم ممتاز على الجوال
+            </button>
+        </div>
+        
+        <!-- أدوات إضافية -->
+        <div style="margin-top: 2rem; text-align: center; padding: 2rem; background: #f8f9fa; border-radius: 15px;">
+            <h3><i class="fas fa-tools"></i> أدوات الإصلاح</h3>
+            <div style="display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap; margin-top: 1rem;">
+                <a href="emergency-reset.html" class="btn btn-warning">
+                    <i class="fas fa-refresh"></i> إعادة تعيين البيانات
+                </a>
+                <a href="diagnose.html" class="btn btn-info">
+                    <i class="fas fa-stethoscope"></i> تشخيص النظام
+                </a>
+                <a href="test-new-features.html" class="btn btn-primary">
+                    <i class="fas fa-flask"></i> اختبار الميزات
+                </a>
+            </div>
+        </div>
+        
+        <!-- نتائج الاختبار -->
+        <div id="testResults" style="margin-top: 2rem; padding: 2rem; border-radius: 15px; display: none;">
+            <h3><i class="fas fa-chart-bar"></i> نتائج الاختبار</h3>
+            <div id="resultsContent"></div>
+        </div>
+    </div>
+    
+    <script>
+        let testResults = {
+            teacherLogin: null,
+            organizationSettings: null,
+            responsive: null,
+            mobile: null
+        };
+        
+        function markTestSuccess(cardId, statusId) {
+            const card = document.getElementById(cardId);
+            const status = document.getElementById(statusId);
+            
+            card.classList.remove('error', 'warning');
+            card.classList.add('success');
+            status.classList.remove('status-error', 'status-warning');
+            status.classList.add('status-success');
+            
+            // تحديث النتائج
+            const testName = cardId.replace('Test', '');
+            testResults[testName] = true;
+            updateResults();
+        }
+        
+        function markTestError(cardId, statusId) {
+            const card = document.getElementById(cardId);
+            const status = document.getElementById(statusId);
+            
+            card.classList.remove('success', 'warning');
+            card.classList.add('error');
+            status.classList.remove('status-success', 'status-warning');
+            status.classList.add('status-error');
+            
+            // تحديث النتائج
+            const testName = cardId.replace('Test', '');
+            testResults[testName] = false;
+            updateResults();
+        }
+        
+        function testResponsive() {
+            const width = window.innerWidth;
+            const isMobile = width <= 768;
+            
+            if (isMobile) {
+                alert('✅ أنت تستخدم شاشة صغيرة الآن! إذا كان التصميم يبدو جيداً، فالتصميم المتجاوب يعمل.');
+                markTestSuccess('responsiveTest', 'responsiveStatus');
+            } else {
+                alert('ℹ️ لاختبار التصميم المتجاوب، صغر نافذة المتصفح أو استخدم أدوات المطور (F12 > Device Mode)');
+            }
+        }
+        
+        function markMobileSuccess() {
+            testResults.mobile = true;
+            updateResults();
+            alert('🎉 ممتاز! تم تسجيل أن التصميم يعمل بشكل مثالي على الجوال');
+        }
+        
+        function updateResults() {
+            const resultsDiv = document.getElementById('testResults');
+            const contentDiv = document.getElementById('resultsContent');
+            
+            const total = Object.keys(testResults).length;
+            const passed = Object.values(testResults).filter(r => r === true).length;
+            const failed = Object.values(testResults).filter(r => r === false).length;
+            const pending = total - passed - failed;
+            
+            if (passed > 0 || failed > 0) {
+                resultsDiv.style.display = 'block';
+                
+                let resultClass = 'warning';
+                let resultIcon = 'fas fa-clock';
+                let resultText = 'جاري الاختبار...';
+                
+                if (failed === 0 && pending === 0) {
+                    resultClass = 'success';
+                    resultIcon = 'fas fa-check-circle';
+                    resultText = 'جميع الاختبارات نجحت! 🎉';
+                } else if (failed > 0) {
+                    resultClass = 'error';
+                    resultIcon = 'fas fa-exclamation-circle';
+                    resultText = 'بعض الاختبارات فشلت';
+                }
+                
+                resultsDiv.className = resultClass;
+                
+                contentDiv.innerHTML = `
+                    <div style="display: flex; align-items: center; gap: 1rem; margin-bottom: 1rem;">
+                        <i class="${resultIcon}" style="font-size: 2rem;"></i>
+                        <div>
+                            <h4>${resultText}</h4>
+                            <p>نجح: ${passed} | فشل: ${failed} | متبقي: ${pending}</p>
+                        </div>
+                    </div>
+                    
+                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem;">
+                        <div style="text-align: center; padding: 1rem; background: ${testResults.teacherLogin === true ? '#d4edda' : testResults.teacherLogin === false ? '#f8d7da' : '#fff3cd'}; border-radius: 10px;">
+                            <i class="fas fa-chalkboard-teacher" style="font-size: 2rem; margin-bottom: 0.5rem;"></i>
+                            <p>دخول المعلم</p>
+                            <strong>${testResults.teacherLogin === true ? '✅ نجح' : testResults.teacherLogin === false ? '❌ فشل' : '⏳ متبقي'}</strong>
+                        </div>
+                        
+                        <div style="text-align: center; padding: 1rem; background: ${testResults.organizationSettings === true ? '#d4edda' : testResults.organizationSettings === false ? '#f8d7da' : '#fff3cd'}; border-radius: 10px;">
+                            <i class="fas fa-cog" style="font-size: 2rem; margin-bottom: 0.5rem;"></i>
+                            <p>إعدادات الجمعية</p>
+                            <strong>${testResults.organizationSettings === true ? '✅ نجح' : testResults.organizationSettings === false ? '❌ فشل' : '⏳ متبقي'}</strong>
+                        </div>
+                        
+                        <div style="text-align: center; padding: 1rem; background: ${testResults.responsive === true ? '#d4edda' : testResults.responsive === false ? '#f8d7da' : '#fff3cd'}; border-radius: 10px;">
+                            <i class="fas fa-mobile-alt" style="font-size: 2rem; margin-bottom: 0.5rem;"></i>
+                            <p>التصميم المتجاوب</p>
+                            <strong>${testResults.responsive === true ? '✅ نجح' : testResults.responsive === false ? '❌ فشل' : '⏳ متبقي'}</strong>
+                        </div>
+                        
+                        <div style="text-align: center; padding: 1rem; background: ${testResults.mobile === true ? '#d4edda' : testResults.mobile === false ? '#f8d7da' : '#fff3cd'}; border-radius: 10px;">
+                            <i class="fas fa-thumbs-up" style="font-size: 2rem; margin-bottom: 0.5rem;"></i>
+                            <p>اختبار الجوال</p>
+                            <strong>${testResults.mobile === true ? '✅ نجح' : testResults.mobile === false ? '❌ فشل' : '⏳ متبقي'}</strong>
+                        </div>
+                    </div>
+                `;
+            }
+        }
+        
+        // تحديث تلقائي للنتائج عند تحميل الصفحة
+        document.addEventListener('DOMContentLoaded', function() {
+            updateResults();
+        });
+    </script>
+</body>
+</html>
